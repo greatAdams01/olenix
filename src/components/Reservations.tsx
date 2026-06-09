@@ -79,16 +79,7 @@ export default function Reservations() {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-6 p-4">
-              <div className="flex flex-col">
-                <span className="text-[9px] uppercase tracking-widest text-gold-400/40 mb-2">WhatsApp</span>
-                <a href="https://wa.me/2348133853173" className="text-sm font-mono text-gold-400/80 hover:text-gold-400 transition-colors">0813 385 3173</a>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[9px] uppercase tracking-widest text-gold-400/40 mb-2">Reservations</span>
-                <a href="tel:+2348133264841" className="text-sm font-mono text-gold-400/80 hover:text-gold-400 transition-colors">0813 332 6484</a>
-              </div>
-            </div>
+
             
             <div className="mt-8 pt-8 border-t border-white/10 flex gap-4">
                <button 

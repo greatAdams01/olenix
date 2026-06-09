@@ -3,6 +3,7 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Features from './components/Features';
 import Entertainment from './components/Entertainment';
+import Menu from './components/Menu';
 import Reservations from './components/Reservations';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
@@ -16,6 +17,7 @@ export default function App() {
       <About />
       <Features />
       <Entertainment />
+      <Menu />
       <Reservations />
       <FAQ />
       <Footer />

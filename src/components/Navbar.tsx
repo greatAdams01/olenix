@@ -9,6 +9,7 @@ export default function Navbar() {
     { name: 'About', href: '#about' },
     { name: 'Experience', href: '#features' },
     { name: 'Entertainment', href: '#entertainment' },
+    { name: 'Menu', href: '#menu' },
     { name: 'Reservations', href: '#reservations' },
     { name: 'FAQ', href: '#faq' },
   ];
