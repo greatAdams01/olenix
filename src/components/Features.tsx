@@ -30,7 +30,7 @@ const features = [
 
 export default function Features() {
   return (
-    <section id="features" className="bg-black text-white px-4 md:px-12 border-t border-white/10">
+    <section id="features" className="bg-black bg-gradient-to-tl from-gold-500/20 via-black to-white/5 text-gold-400 px-4 md:px-12 border-t border-white/10">
       <div className="max-w-[1280px] mx-auto py-24">
         <motion.div
            initial={{ opacity: 0, y: 20 }}
@@ -60,8 +60,8 @@ export default function Features() {
                />
                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
                <div className="relative z-10 p-10 flex flex-col justify-end h-full">
-                 <span className="text-[10px] uppercase tracking-widest text-white/50 mb-3 group-hover:text-white/80 transition-colors">{feature.title}</span>
-                 <span className="text-sm md:text-base font-light text-white/90 leading-relaxed group-hover:text-white transition-colors">{feature.description}</span>
+                 <span className="text-[10px] uppercase tracking-widest text-gold-400/50 mb-3 group-hover:text-gold-400/80 transition-colors">{feature.title}</span>
+                 <span className="text-sm md:text-base font-light text-gold-400/90 leading-relaxed group-hover:text-gold-400 transition-colors">{feature.description}</span>
                </div>
              </motion.div>
           ))}

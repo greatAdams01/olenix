@@ -37,7 +37,7 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="py-24 bg-zinc-950 text-white px-4 border-t border-white/10">
+    <section id="faq" className="py-24 bg-zinc-950 text-gold-400 px-4 border-t border-white/10">
       <div className="max-w-4xl mx-auto">
         <motion.div
            initial={{ opacity: 0, y: 20 }}
@@ -64,9 +64,9 @@ export default function FAQ() {
                  onClick={() => toggleFaq(index)}
                  className="w-full py-6 text-left flex justify-between items-center focus:outline-none group transition-colors"
                >
-                 <span className="font-serif text-lg md:text-xl text-white/90 group-hover:text-white group-hover:italic pr-8 transition-all">{faq.question}</span>
+                 <span className="font-serif text-lg md:text-xl text-gold-400/90 group-hover:text-gold-400 group-hover:italic pr-8 transition-all">{faq.question}</span>
                  <ChevronDown 
-                   className={`w-5 h-5 text-white/40 transition-transform duration-300 flex-shrink-0 ${openIndex === index ? 'rotate-180' : ''}`} 
+                   className={`w-5 h-5 text-gold-400/40 transition-transform duration-300 flex-shrink-0 ${openIndex === index ? 'rotate-180' : ''}`} 
                  />
                </button>
                <AnimatePresence>
@@ -77,7 +77,7 @@ export default function FAQ() {
                      exit={{ height: 0, opacity: 0 }}
                      transition={{ duration: 0.3 }}
                    >
-                     <div className="pb-8 text-white/60 font-light leading-relaxed max-w-2xl">
+                     <div className="pb-8 text-gold-400/60 font-light leading-relaxed max-w-2xl">
                        {faq.answer}
                      </div>
                    </motion.div>

@@ -18,10 +18,10 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <div className="flex-shrink-0 flex flex-col">
-            <a href="#" className="font-serif text-2xl font-bold tracking-widest text-white uppercase leading-none">
+            <a href="#" className="font-serif text-2xl font-bold tracking-widest text-gold-500 uppercase leading-none">
               <span>OLENIX</span>
             </a>
-           <span className="text-[10px] tracking-[0.3em] text-white/60 uppercase mt-1">Xclusive Lounge</span>
+           <span className="text-[10px] tracking-[0.3em] text-gold-400/80 uppercase mt-1">Xclusive Lounge</span>
           </div>
           <div className="hidden md:block">
             <div className="flex items-baseline gap-8">
@@ -29,20 +29,20 @@ export default function Navbar() {
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-white/70 hover:text-white text-[11px] uppercase tracking-widest transition-colors"
+                  className="text-gold-400/70 hover:text-gold-400 text-[11px] uppercase tracking-widest transition-colors"
                 >
                   {link.name}
                 </a>
               ))}
             </div>
           </div>
-          <div className="hidden md:block px-6 py-2 border border-white/20 text-[10px] uppercase tracking-tighter text-white/90">
+          <div className="hidden md:block px-6 py-2 border border-white/20 text-[10px] uppercase tracking-tighter text-gold-400/90">
             Lagos, Nigeria
           </div>
           <div className="flex md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-white/10 focus:outline-none transition-colors"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gold-400 hover:text-gold-400 hover:bg-white/10 focus:outline-none transition-colors"
             >
               <span className="sr-only">Open main menu</span>
               {isOpen ? <X className="block h-6 w-6" /> : <Menu className="block h-6 w-6" />}
@@ -65,7 +65,7 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className="text-gray-400 hover:text-white block px-3 py-3 text-base uppercase tracking-widest font-medium transition-colors"
+                  className="text-gold-400 hover:text-gold-400 block px-3 py-3 text-base uppercase tracking-widest font-medium transition-colors"
                 >
                   {link.name}
                 </a>

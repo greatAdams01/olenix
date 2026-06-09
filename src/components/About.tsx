@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 
 export default function About() {
   return (
-    <section id="about" className="py-24 md:py-32 bg-black text-white px-4 md:px-12 border-t border-white/10">
+    <section id="about" className="py-24 md:py-32 bg-black bg-gradient-to-tl from-gold-500/20 via-black to-white/5 text-gold-400 px-4 md:px-12 border-t border-white/10">
       <div className="max-w-[1280px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
           <motion.div 
@@ -13,15 +13,15 @@ export default function About() {
             className="flex flex-col gap-12"
           >
             <div>
-              <h2 className="text-[10px] text-white/40 uppercase tracking-[0.4em] font-semibold mb-6">Our Story</h2>
-              <p className="text-white/70 font-light leading-relaxed text-lg max-w-xl">
+              <h2 className="text-[10px] text-gold-400/40 uppercase tracking-[0.4em] font-semibold mb-6">Our Story</h2>
+              <p className="text-gold-400/70 font-light leading-relaxed text-lg max-w-xl">
                 Nestled in the heart of Sangotedo, Lagos, Olenix Xclusive Lounge is a distinctive destination for friends, families, and professionals to relax, connect, and enjoy premium hospitality. We combine exquisite cuisine, refreshing beverages, exceptional service, and vibrant entertainment to create memorable experiences.
               </p>
             </div>
             
             <div className="pl-6 border-l w-max border-white/20">
-              <h2 className="text-[10px] text-white/40 uppercase tracking-[0.4em] font-semibold mb-4">Our Philosophy</h2>
-              <p className="text-2xl lg:text-3xl font-serif text-white italic">
+              <h2 className="text-[10px] text-gold-400/40 uppercase tracking-[0.4em] font-semibold mb-4">Our Philosophy</h2>
+              <p className="text-2xl lg:text-3xl font-serif text-gold-400 italic">
                 "Fresh Flavours. Healthy Choices.<br/>Exceptional Experiences."
               </p>
             </div>
@@ -41,14 +41,14 @@ export default function About() {
              
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <div className="bg-zinc-950 p-10 border border-white/5 hover:border-white/20 transition-colors">
-                  <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/60 mb-6">Mission</h3>
-                  <p className="text-white/50 text-sm leading-relaxed font-light">
+                  <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-gold-400/60 mb-6">Mission</h3>
+                  <p className="text-gold-400/50 text-sm leading-relaxed font-light">
                      To consistently deliver exceptional hospitality through quality Nigerian and international cuisine, outstanding service, a welcoming ambiance, and engaging entertainment.
                   </p>
                 </div>
                 <div className="bg-zinc-950 p-10 border border-white/5 hover:border-white/20 transition-colors">
-                  <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/60 mb-6">Vision</h3>
-                  <p className="text-white/50 text-sm leading-relaxed font-light">
+                  <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-gold-400/60 mb-6">Vision</h3>
+                  <p className="text-gold-400/50 text-sm leading-relaxed font-light">
                      To become Nigeria’s preferred destination for premium dining, relaxation, and entertainment by setting the standard for quality service, vibrant experiences, and lasting guest satisfaction.
                   </p>
                 </div>

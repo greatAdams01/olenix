@@ -19,24 +19,24 @@ export default function Hero() {
            animate={{ opacity: 1, y: 0 }}
            transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <p className="text-white/40 uppercase tracking-[0.4em] text-xs md:text-sm mb-6 font-medium">Olenix Xclusive Lounge</p>
-          <h1 className="text-6xl md:text-7xl xl:text-[80px] font-serif text-white mb-8 leading-[0.85]">
-            Where luxury<br className="hidden md:block"/><span className="italic text-white/50 md:ml-4">meets nightlife.</span>
+          <p className="text-gold-400 uppercase tracking-[0.4em] text-xs md:text-sm mb-6 font-medium">Olenix Xclusive Lounge</p>
+          <h1 className="text-6xl md:text-7xl xl:text-[80px] font-serif text-gold-400 mb-8 leading-[0.85]">
+            Where luxury<br className="hidden md:block"/><span className="italic text-gold-500 md:ml-4">meets nightlife.</span>
           </h1>
-          <p className="text-lg text-white/60 font-light max-w-md mx-auto border-l-2 border-white/20 pl-6 text-left mb-12">
+          <p className="text-lg text-gold-400/60 font-light max-w-md mx-auto border-l-2 border-white/20 pl-6 text-left mb-12">
             Where Exceptional Dining Meets Unforgettable Experiences.
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a 
               href="#reservations"
-              className="w-full sm:w-auto px-8 py-4 bg-white text-black text-xs font-bold uppercase tracking-widest hover:bg-zinc-200 transition-colors"
+              className="w-full sm:w-auto px-8 py-4 bg-gold-500 text-black text-xs font-bold uppercase tracking-widest hover:bg-gold-400 transition-colors shadow-[0_0_15px_rgba(212,175,55,0.4)]"
             >
               Make a Reservation
             </a>
             <a 
               href="#entertainment"
-              className="w-full sm:w-auto px-8 py-4 bg-transparent text-white border border-white/20 text-xs font-bold uppercase tracking-widest hover:bg-white/5 transition-colors"
+              className="w-full sm:w-auto px-8 py-4 bg-transparent text-gold-400 border border-white/20 text-xs font-bold uppercase tracking-widest hover:bg-white/5 transition-colors"
             >
               Explore Events
             </a>
@@ -49,7 +49,7 @@ export default function Hero() {
         animate={{ y: [0, 10, 0] }}
         transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
       >
-        <span className="block text-[10px] uppercase tracking-widest text-white mb-4 text-center">Scroll</span>
+        <span className="block text-[10px] uppercase tracking-widest text-gold-400 mb-4 text-center">Scroll</span>
         <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent mx-auto" />
       </motion.div>
     </div>
