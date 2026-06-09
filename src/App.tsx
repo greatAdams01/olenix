@@ -6,6 +6,7 @@ import Entertainment from './components/Entertainment';
 import Reservations from './components/Reservations';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
+import BookingModal from './components/BookingModal';
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
       <Reservations />
       <FAQ />
       <Footer />
+      <BookingModal />
     </div>
   );
 }

@@ -53,19 +53,13 @@ export default function Reservations() {
                </div>
                
                <div className="space-y-6">
-                  <h3 className="text-[10px] uppercase tracking-widest text-gold-400/40 mb-4">VIP Process</h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    {vipSteps.map((step, index) => (
-                      <div key={index} className="flex gap-4">
-                        <span className="font-serif italic text-gold-400/30">
-                          {String(index + 1).padStart(2, '0')}
-                        </span>
-                        <span className="text-xs font-light text-gold-400/70 leading-relaxed">
-                          {step}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
+                  <h3 className="text-[10px] uppercase tracking-widest text-gold-400/40 mb-4">VIP Reservation</h3>
+                  <button 
+                    onClick={() => window.dispatchEvent(new Event('open-booking-modal'))}
+                    className="inline-block px-10 py-5 bg-gold-500 text-black text-sm font-bold uppercase tracking-widest hover:bg-gold-400 transition-colors shadow-[0_0_20px_rgba(212,175,55,0.4)]"
+                  >
+                    Book Now
+                  </button>
                </div>
             </div>
           </motion.div>
@@ -97,7 +91,10 @@ export default function Reservations() {
             </div>
             
             <div className="mt-8 pt-8 border-t border-white/10 flex gap-4">
-               <button className="flex-1 bg-white text-black px-6 py-4 text-[10px] font-bold uppercase tracking-widest hover:bg-zinc-200 transition-colors">
+               <button 
+                 onClick={() => window.dispatchEvent(new Event('open-booking-modal'))}
+                 className="flex-1 bg-gold-500 text-black px-6 py-4 text-[10px] font-bold uppercase tracking-widest hover:bg-gold-400 transition-colors shadow-[0_0_15px_rgba(212,175,55,0.3)]"
+               >
                  Book Now
                </button>
             </div>

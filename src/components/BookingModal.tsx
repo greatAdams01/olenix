@@ -1,0 +1,283 @@
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { X, User, Users, CalendarClock, Wine, MessageSquare, ArrowRight, ExternalLink } from 'lucide-react';
+import { collection, query, where, getDocs, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../lib/firebase';
+
+export default function BookingModal() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [step, setStep] = useState<1 | 2>(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [generatedCode, setGeneratedCode] = useState('');
+
+  const [formData, setFormData] = useState({
+    name: '',
+    guests: '',
+    datetime: '',
+    intentions: '',
+    preferences: ''
+  });
+
+  useEffect(() => {
+    const handleOpen = () => {
+      setIsOpen(true);
+      setStep(1);
+      setError('');
+      setGeneratedCode('');
+      setFormData({ name: '', guests: '', datetime: '', intentions: '', preferences: '' });
+    };
+    window.addEventListener('open-booking-modal', handleOpen);
+    return () => window.removeEventListener('open-booking-modal', handleOpen);
+  }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setError('');
+  };
+
+  const handleCheckAvailability = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError('');
+
+    try {
+      const targetDate = formData.datetime.split('T')[0]; // Extract YYYY-MM-DD
+      
+      const bookingsRef = collection(db, 'vip_bookings');
+      const q = query(bookingsRef, where('date', '==', targetDate));
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.size >= 3) {
+        setError('Sorry, we are fully booked for VIP reservations on this date. Please select another date.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      // If available, generate code and move to step 2
+      const code = 'OLX-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+      setGeneratedCode(code);
+      setStep(2);
+    } catch (err) {
+      console.error(err);
+      setError('An error occurred while checking availability. We will bypass this for demo purposes.');
+      // Fallback for demo without real firebase config
+      const code = 'OLX-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+      setGeneratedCode(code);
+      setStep(2);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleAcceptAndProceed = async () => {
+    setIsSubmitting(true);
+    try {
+      const targetDate = formData.datetime.split('T')[0];
+      
+      // Save to Firebase (will fail gracefully if using dummy config, but we try anyway)
+      try {
+        await addDoc(collection(db, 'vip_bookings'), {
+          ...formData,
+          date: targetDate,
+          code: generatedCode,
+          status: 'pending',
+          createdAt: serverTimestamp()
+        });
+      } catch (fbErr) {
+        console.warn('Firebase save failed (expected if using dummy config), proceeding to WhatsApp anyway:', fbErr);
+      }
+
+      // Construct WhatsApp Message
+      const message = `Hello Olenix Lounge, I would like to confirm my VIP Reservation.
+
+*Booking Code:* ${generatedCode}
+*Name:* ${formData.name}
+*Date & Time:* ${formData.datetime.replace('T', ' ')}
+*Guests:* ${formData.guests}
+*Intentions:* ${formData.intentions || 'N/A'}
+*Preferences:* ${formData.preferences || 'None'}
+
+Please let me know how to proceed with the deposit payment.`;
+
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/2348133853173?text=${encodedMessage}`;
+      
+      window.location.href = whatsappUrl;
+      
+      // Close modal after brief delay
+      setTimeout(() => {
+        setIsOpen(false);
+        setIsSubmitting(false);
+      }, 1000);
+
+    } catch (err) {
+      console.error(err);
+      setError('Failed to create booking. Please try again.');
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsOpen(false)}
+            className="absolute inset-0 bg-black/90 backdrop-blur-md"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="relative w-full max-w-2xl bg-zinc-950/80 backdrop-blur-xl border border-gold-500/20 shadow-[0_0_50px_rgba(212,175,55,0.1)] overflow-hidden rounded-sm"
+          >
+            {/* Top decorative gradient */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold-500 to-transparent opacity-50" />
+            
+            <div className="p-6 md:p-10 max-h-[90vh] overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gold-500/20 [&::-webkit-scrollbar-thumb]:rounded-full">
+              <button 
+                onClick={() => setIsOpen(false)}
+                className="absolute top-4 right-4 md:top-6 md:right-6 text-gold-400/50 hover:text-gold-400 transition-colors bg-white/5 p-2 rounded-full hover:bg-white/10"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="mb-10 text-center mt-2">
+                <h2 className="text-3xl md:text-4xl font-serif text-white mb-3">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-500 to-gold-600">
+                    VIP Reservation
+                  </span>
+                </h2>
+                <p className="text-gold-400/60 text-[10px] md:text-xs tracking-[0.3em] uppercase font-light">Secure your premium experience</p>
+              </div>
+
+              {step === 1 ? (
+                <form className="space-y-6" onSubmit={handleCheckAvailability}>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Full Name */}
+                    <div className="space-y-2 relative group">
+                      <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Full Name</label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <User className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
+                        </div>
+                        <input required name="name" value={formData.name} onChange={handleInputChange} type="text" placeholder="John Doe" className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-gold-300 placeholder:text-white/20 focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm" />
+                      </div>
+                    </div>
+                    
+                    {/* Guests */}
+                    <div className="space-y-2 relative group">
+                      <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Number of Guests</label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <Users className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
+                        </div>
+                        <input required name="guests" value={formData.guests} onChange={handleInputChange} type="number" min="1" placeholder="2" className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-gold-300 placeholder:text-white/20 focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm" />
+                      </div>
+                    </div>
+
+                    {/* Arrival Date & Time (Spans full width now since we removed phone) */}
+                    <div className="space-y-2 relative group md:col-span-2">
+                      <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Arrival Date & Time</label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <CalendarClock className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
+                        </div>
+                        <input required name="datetime" value={formData.datetime} onChange={handleInputChange} type="datetime-local" className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-gold-300 focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm [color-scheme:dark]" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Consumption Intentions */}
+                  <div className="space-y-2 relative group">
+                    <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Consumption Intentions</label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <Wine className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
+                      </div>
+                      <input name="intentions" value={formData.intentions} onChange={handleInputChange} type="text" placeholder="e.g. Bottle service, Dinner, Celebrations..." className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-gold-300 placeholder:text-white/20 focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm" />
+                    </div>
+                  </div>
+
+                  {/* Service Preferences */}
+                  <div className="space-y-2 relative group">
+                    <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Service Preferences / Special Requests</label>
+                    <div className="relative">
+                      <div className="absolute top-5 left-0 pl-4 pointer-events-none">
+                        <MessageSquare className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
+                      </div>
+                      <textarea name="preferences" value={formData.preferences} onChange={handleInputChange} rows={3} placeholder="Tell us how we can make your experience exceptional..." className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-gold-300 placeholder:text-white/20 focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm resize-none"></textarea>
+                    </div>
+                  </div>
+
+                  {error && (
+                    <div className="p-4 bg-red-500/10 border border-red-500/30 text-red-400 text-sm rounded-sm">
+                      {error}
+                    </div>
+                  )}
+
+                  <div className="pt-6">
+                    <button 
+                      type="submit" 
+                      disabled={isSubmitting}
+                      className="w-full group relative flex items-center justify-center gap-3 bg-gradient-to-r from-gold-600 via-gold-500 to-gold-400 text-black py-5 text-sm font-bold uppercase tracking-widest hover:opacity-90 transition-all shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] rounded-sm overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                      <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                      <span className="relative z-10">{isSubmitting ? 'Checking Availability...' : 'Continue to Confirmation'}</span>
+                      {!isSubmitting && <ArrowRight className="w-4 h-4 relative z-10" />}
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <motion.div 
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className="space-y-8 flex flex-col items-center py-8"
+                >
+                  <div className="text-center space-y-4">
+                    <h3 className="text-xl text-white font-serif">Your VIP Booking Code</h3>
+                    <div className="bg-black border border-gold-500/30 py-6 px-12 rounded-sm shadow-[0_0_30px_rgba(212,175,55,0.15)]">
+                      <span className="text-4xl md:text-5xl font-mono text-gold-500 tracking-widest">{generatedCode}</span>
+                    </div>
+                    <p className="text-gold-400/70 text-sm max-w-md mx-auto mt-4 font-light">
+                      Please accept this code to secure your reservation. You will be redirected to our official WhatsApp to finalize your deposit.
+                    </p>
+                  </div>
+
+                  {error && (
+                    <div className="p-4 w-full bg-red-500/10 border border-red-500/30 text-red-400 text-sm rounded-sm text-center">
+                      {error}
+                    </div>
+                  )}
+
+                  <div className="flex flex-col sm:flex-row gap-4 w-full">
+                    <button 
+                      onClick={() => setStep(1)}
+                      disabled={isSubmitting}
+                      className="flex-1 py-4 border border-white/20 text-white/60 text-xs font-bold uppercase tracking-widest hover:bg-white/5 transition-colors rounded-sm"
+                    >
+                      Go Back
+                    </button>
+                    <button 
+                      onClick={handleAcceptAndProceed}
+                      disabled={isSubmitting}
+                      className="flex-1 group relative flex items-center justify-center gap-3 bg-gradient-to-r from-green-600 via-green-500 to-green-400 text-black py-4 text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-all shadow-[0_0_20px_rgba(34,197,94,0.3)] hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] rounded-sm overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                      <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                      <span className="relative z-10">{isSubmitting ? 'Proceeding...' : 'Accept & Proceed to WhatsApp'}</span>
+                      {!isSubmitting && <ExternalLink className="w-4 h-4 relative z-10" />}
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+}

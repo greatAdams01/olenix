@@ -36,8 +36,16 @@ export default function Navbar() {
               ))}
             </div>
           </div>
-          <div className="hidden md:block px-6 py-2 border border-white/20 text-[10px] uppercase tracking-tighter text-gold-400/90">
-            Lagos, Nigeria
+          <div className="hidden md:flex items-center gap-4">
+            <div className="px-6 py-2 border border-gold-500/20 text-[10px] uppercase tracking-tighter text-gold-400/90">
+              Lagos, Nigeria
+            </div>
+            <button 
+              onClick={() => window.dispatchEvent(new Event('open-booking-modal'))}
+              className="px-6 py-2 bg-gold-500 text-black text-[10px] font-bold uppercase tracking-widest hover:bg-gold-400 transition-colors shadow-[0_0_10px_rgba(212,175,55,0.3)]"
+            >
+              Book Now
+            </button>
           </div>
           <div className="flex md:hidden">
             <button
@@ -70,6 +78,15 @@ export default function Navbar() {
                   {link.name}
                 </a>
               ))}
+              <button 
+                onClick={() => {
+                  setIsOpen(false);
+                  window.dispatchEvent(new Event('open-booking-modal'));
+                }}
+                className="w-full text-left text-black bg-gold-500 block px-3 py-3 mt-4 text-base uppercase tracking-widest font-bold transition-colors"
+              >
+                Book Now
+              </button>
             </div>
           </motion.div>
         )}
