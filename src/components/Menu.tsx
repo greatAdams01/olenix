@@ -1,72 +1,39 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Search } from 'lucide-react';
-
-const featuredMenuItems = [
-  {
-    category: "Signature Cocktails",
-    items: [
-      { name: "The Golden Hour", price: "₦15,000", desc: "Premium vodka, passion fruit, vanilla, topped with 24k gold leaf." },
-      { name: "Olenix Special", price: "₦18,000", desc: "Aged rum, sweet vermouth, dark chocolate bitters, smoked cherry." },
-      { name: "Midnight in Lagos", price: "₦16,000", desc: "Gin, blackberry, fresh lime, activated charcoal, glowing garnish." }
-    ]
-  },
-  {
-    category: "Premium Spirits",
-    items: [
-      { name: "Don Julio 1942", price: "₦850,000", desc: "Served by the bottle with complimentary chasers and sparklers." },
-      { name: "Ace of Spades", price: "₦1,200,000", desc: "Armand de Brignac Brut Gold, served chilled." },
-      { name: "Hennessy Paradis", price: "₦2,500,000", desc: "The ultimate cognac experience, served with premium cigars." }
-    ]
-  },
-  {
-    category: "Gourmet Bites",
-    items: [
-      { name: "Truffle Fries", price: "₦12,000", desc: "Crispy fries tossed in white truffle oil and parmesan." },
-      { name: "Wagyu Sliders", price: "₦35,000", desc: "Three premium wagyu beef sliders with caramelized onions and gold sauce." },
-      { name: "Spicy Tiger Prawns", price: "₦28,000", desc: "Jumbo prawns tossed in our signature spicy garlic butter." }
-    ]
-  }
-];
-
-const fullMenu = [
-  ...featuredMenuItems,
-  {
-    category: "Main Courses",
-    items: [
-      { name: "Grilled Salmon", price: "₦32,000", desc: "Atlantic salmon, asparagus, lemon butter sauce." },
-      { name: "Jollof Rice & Suya Chicken", price: "₦18,000", desc: "Authentic Nigerian party jollof with spicy grilled chicken." },
-      { name: "Ribeye Steak (8oz)", price: "₦45,000", desc: "Prime ribeye, garlic mash, peppercorn sauce." },
-      { name: "Seafood Pasta", price: "₦25,000", desc: "Linguine, prawns, calamari, rich tomato basil sauce." }
-    ]
-  },
-  {
-    category: "Champagne & Wine",
-    items: [
-      { name: "Moët & Chandon Nectar Impérial", price: "₦150,000", desc: "By the bottle." },
-      { name: "Dom Pérignon Vintage", price: "₦650,000", desc: "By the bottle." },
-      { name: "Whispering Angel Rosé", price: "₦85,000", desc: "By the bottle." },
-      { name: "Château Margaux", price: "₦2,100,000", desc: "Premier Grand Cru Classé." }
-    ]
-  },
-  {
-    category: "Desserts",
-    items: [
-      { name: "Gold Leaf Cheesecake", price: "₦12,000", desc: "New York style cheesecake with edible 24k gold." },
-      { name: "Molten Lava Cake", price: "₦10,000", desc: "Rich dark chocolate cake with vanilla bean ice cream." }
-    ]
-  }
-];
+import { X, Search, Loader2 } from 'lucide-react';
+import { collection, query, onSnapshot } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 
 export default function Menu() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [menuItems, setMenuItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const q = query(collection(db, 'menu'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const data = snapshot.docs.map(doc => doc.data());
+      setMenuItems(data);
+      setLoading(false);
+    });
+    return unsubscribe;
+  }, []);
+
+  const groupedMenu = menuItems.reduce((acc, item) => {
+    if (!acc[item.category]) acc[item.category] = { category: item.category, items: [] };
+    acc[item.category].items.push(item);
+    return acc;
+  }, {} as Record<string, { category: string, items: any[] }>);
+
+  const fullMenu = Object.values(groupedMenu);
+  const featuredMenuItems = fullMenu.slice(0, 3);
 
   const filteredMenu = fullMenu.map(section => ({
     ...section,
-    items: section.items.filter(item => 
+    items: section.items.filter((item: any) => 
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-      item.desc.toLowerCase().includes(searchQuery.toLowerCase())
+      item.desc?.toLowerCase().includes(searchQuery.toLowerCase())
     )
   })).filter(section => section.items.length > 0);
 

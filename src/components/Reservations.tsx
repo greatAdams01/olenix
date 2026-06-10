@@ -10,20 +10,9 @@ const vipSteps = [
   "Settle any outstanding balance before departure."
 ];
 
-const eventSteps = [
-  "Inquiry",
-  "Check requirements (DJ, MC, Food, Photography)",
-  "Pay deposit",
-  "Receive confirmation",
-  "Finalize details",
-  "Final payment",
-  "Host event",
-  "Provide feedback"
-];
-
 export default function Reservations() {
   return (
-    <section id="reservations" className="bg-black text-gold-400 px-4 md:px-12 border-t border-white/10">
+    <section id="reservations" className="bg-black text-white px-4 md:px-12 border-t border-white/10">
       <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row border-l border-r border-white/10">
         
         {/* Left Side: Info */}
@@ -35,25 +24,16 @@ export default function Reservations() {
              className="p-10 md:p-16 flex flex-col gap-12"
           >
             <div>
-              <h2 className="text-3xl md:text-5xl font-serif mb-4">VIP Booking</h2>
+              <h2 className="text-3xl md:text-5xl font-serif text-gold-500 mb-4">VIP Booking</h2>
               <div className="w-16 h-[1px] bg-white/30" />
             </div>
 
             <div className="space-y-12 shrink-0">
-               <div className="space-y-4">
-                 <h3 className="text-[10px] uppercase tracking-widest text-gold-400/40 mb-4">Event Booking Process</h3>
-                 <div className="flex flex-wrap gap-2 items-center text-[10px] font-mono tracking-widest uppercase text-gold-400/60">
-                   {eventSteps.map((step, idx) => (
-                     <span key={idx} className="flex items-center gap-2">
-                       <span>{step}</span>
-                       {idx < eventSteps.length - 1 && <span className="text-gold-400/20">/</span>}
-                     </span>
-                   ))}
-                 </div>
-               </div>
-               
                <div className="space-y-6">
-                  <h3 className="text-[10px] uppercase tracking-widest text-gold-400/40 mb-4">VIP Reservation</h3>
+                  <h3 className="text-[10px] uppercase tracking-widest text-gold-500 mb-4">VIP Reservation</h3>
+                  <p className="text-white/80 font-light leading-relaxed mb-6">
+                    Experience our premium sections, bottle service, and exclusive treatment. Secure your spot now to skip the queue and guarantee your luxury experience.
+                  </p>
                   <button 
                     onClick={() => window.dispatchEvent(new Event('open-booking-modal'))}
                     className="inline-block px-10 py-5 bg-gold-500 text-black text-sm font-bold uppercase tracking-widest hover:bg-gold-400 transition-colors shadow-[0_0_20px_rgba(212,175,55,0.4)]"
