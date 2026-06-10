@@ -14,7 +14,7 @@ export default function Entertainment() {
   const [activeImg, setActiveImg] = useState(lineup[0].img);
 
   return (
-    <section id="entertainment" className="py-24 bg-zinc-950 bg-gradient-to-tl from-gold-500/20 via-zinc-950 to-white/5 text-gold-400 px-4 border-t border-white/10">
+    <section id="entertainment" className="py-24 bg-zinc-950 bg-gradient-to-tl from-gold-500/20 via-zinc-950 to-white/5 px-4 border-t border-white/10">
       <div className="max-w-[1280px] mx-auto md:px-12">
         <motion.div
            initial={{ opacity: 0, y: 20 }}
@@ -40,8 +40,8 @@ export default function Entertainment() {
                    transition={{ duration: 0.5, delay: index * 0.1 }}
                    className="flex justify-between items-center group cursor-pointer py-6 border-b border-white/10"
                  >
-                   <span className="text-xl md:text-3xl font-serif text-gold-400/60 group-hover:text-gold-400 group-hover:italic transition-all">{event.name}</span>
-                   <span className="text-[10px] md:text-xs tracking-[0.2em] font-mono text-gold-400/40 uppercase group-hover:text-gold-400/80">{event.day}</span>
+                   <span className="text-xl md:text-3xl font-serif text-white group-hover:text-gold-400 group-hover:italic transition-all">{event.name}</span>
+                   <span className="text-[10px] md:text-xs tracking-[0.2em] font-mono text-white/60 uppercase group-hover:text-white">{event.day}</span>
                  </motion.li>
               ))}
             </ul>

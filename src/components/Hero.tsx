@@ -23,8 +23,8 @@ export default function Hero() {
           <h1 className="text-6xl md:text-7xl xl:text-[80px] font-serif text-gold-400 mb-8 leading-[0.85]">
             Where luxury<br className="hidden md:block"/><span className="italic text-gold-500 md:ml-4">meets nightlife.</span>
           </h1>
-          <p className="text-lg text-gold-400/60 font-light max-w-md mx-auto border-l-2 border-white/20 pl-6 text-left mb-12">
-            Where Exceptional Dining Meets Unforgettable Experiences.
+          <p className="text-lg text-white/80 font-light max-w-md mx-auto border-l-2 border-white/20 pl-6 text-left mb-12">
+            Step into an immersive experience where every detail is curated for the elite. 
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

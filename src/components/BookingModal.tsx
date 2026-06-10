@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, User, Users, CalendarClock, Wine, MessageSquare, ArrowRight, ExternalLink } from 'lucide-react';
+import { X, User, Users, Calendar, Clock, Phone, Mail, ArrowRight, ExternalLink } from 'lucide-react';
 import { collection, query, where, getDocs, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
@@ -14,9 +14,10 @@ export default function BookingModal() {
   const [formData, setFormData] = useState({
     name: '',
     guests: '',
-    datetime: '',
-    intentions: '',
-    preferences: ''
+    date: '',
+    time: '',
+    phone: '',
+    email: ''
   });
 
   useEffect(() => {
@@ -25,13 +26,13 @@ export default function BookingModal() {
       setStep(1);
       setError('');
       setGeneratedCode('');
-      setFormData({ name: '', guests: '', datetime: '', intentions: '', preferences: '' });
+      setFormData({ name: '', guests: '', date: '', time: '', phone: '', email: '' });
     };
     window.addEventListener('open-booking-modal', handleOpen);
     return () => window.removeEventListener('open-booking-modal', handleOpen);
   }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
     setError('');
   };
@@ -42,7 +43,7 @@ export default function BookingModal() {
     setError('');
 
     try {
-      const targetDate = formData.datetime.split('T')[0]; // Extract YYYY-MM-DD
+      const targetDate = formData.date;
       
       const bookingsRef = collection(db, 'vip_bookings');
       const q = query(bookingsRef, where('date', '==', targetDate));
@@ -73,13 +74,10 @@ export default function BookingModal() {
   const handleAcceptAndProceed = async () => {
     setIsSubmitting(true);
     try {
-      const targetDate = formData.datetime.split('T')[0];
-      
       // Save to Firebase (will fail gracefully if using dummy config, but we try anyway)
       try {
         await addDoc(collection(db, 'vip_bookings'), {
           ...formData,
-          date: targetDate,
           code: generatedCode,
           status: 'pending',
           createdAt: serverTimestamp()
@@ -92,11 +90,12 @@ export default function BookingModal() {
       const message = `Hello Olenix Lounge, I would like to confirm my VIP Reservation.
 
 *Booking Code:* ${generatedCode}
-*Name:* ${formData.name}
-*Date & Time:* ${formData.datetime.replace('T', ' ')}
-*Guests:* ${formData.guests}
-*Intentions:* ${formData.intentions || 'N/A'}
-*Preferences:* ${formData.preferences || 'None'}
+*Full name:* ${formData.name}
+*Number of guests:* ${formData.guests}
+*Arrival date:* ${formData.date}
+*Arrival time:* ${formData.time}
+*Phone number:* ${formData.phone}
+*Email:* ${formData.email}
 
 Please let me know how to proceed with the deposit payment.`;
 
@@ -147,12 +146,12 @@ Please let me know how to proceed with the deposit payment.`;
               </button>
 
               <div className="mb-10 text-center mt-2">
-                <h2 className="text-3xl md:text-4xl font-serif text-white mb-3">
+                <h2 className="text-3xl md:text-4xl font-serif mb-3">
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-500 to-gold-600">
                     VIP Reservation
                   </span>
                 </h2>
-                <p className="text-gold-400/60 text-[10px] md:text-xs tracking-[0.3em] uppercase font-light">Secure your premium experience</p>
+                <p className="text-white/60 text-[10px] md:text-xs tracking-[0.3em] uppercase font-light">Secure your premium experience</p>
               </div>
 
               {step === 1 ? (
@@ -160,57 +159,68 @@ Please let me know how to proceed with the deposit payment.`;
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Full Name */}
                     <div className="space-y-2 relative group">
-                      <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Full Name</label>
+                      <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Full name</label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                           <User className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
                         </div>
-                        <input required name="name" value={formData.name} onChange={handleInputChange} type="text" placeholder="John Doe" className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-gold-300 placeholder:text-white/20 focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm" />
+                        <input required name="name" value={formData.name} onChange={handleInputChange} type="text" placeholder="John Doe" className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-white placeholder:text-white/20 focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm" />
                       </div>
                     </div>
                     
                     {/* Guests */}
                     <div className="space-y-2 relative group">
-                      <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Number of Guests</label>
+                      <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Number of guests</label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                           <Users className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
                         </div>
-                        <input required name="guests" value={formData.guests} onChange={handleInputChange} type="number" min="1" placeholder="2" className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-gold-300 placeholder:text-white/20 focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm" />
+                        <input required name="guests" value={formData.guests} onChange={handleInputChange} type="number" min="1" placeholder="2" className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-white placeholder:text-white/20 focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm" />
                       </div>
                     </div>
 
-                    {/* Arrival Date & Time (Spans full width now since we removed phone) */}
-                    <div className="space-y-2 relative group md:col-span-2">
-                      <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Arrival Date & Time</label>
+                    {/* Arrival Date */}
+                    <div className="space-y-2 relative group">
+                      <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Arrival date</label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                          <CalendarClock className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
+                          <Calendar className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
                         </div>
-                        <input required name="datetime" value={formData.datetime} onChange={handleInputChange} type="datetime-local" className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-gold-300 focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm [color-scheme:dark]" />
+                        <input required name="date" value={formData.date} onChange={handleInputChange} type="date" className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-white focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm [color-scheme:dark]" />
                       </div>
                     </div>
-                  </div>
 
-                  {/* Consumption Intentions */}
-                  <div className="space-y-2 relative group">
-                    <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Consumption Intentions</label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <Wine className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
+                    {/* Arrival Time */}
+                    <div className="space-y-2 relative group">
+                      <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Arrival time</label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <Clock className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
+                        </div>
+                        <input required name="time" value={formData.time} onChange={handleInputChange} type="time" className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-white focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm [color-scheme:dark]" />
                       </div>
-                      <input name="intentions" value={formData.intentions} onChange={handleInputChange} type="text" placeholder="e.g. Bottle service, Dinner, Celebrations..." className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-gold-300 placeholder:text-white/20 focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm" />
                     </div>
-                  </div>
 
-                  {/* Service Preferences */}
-                  <div className="space-y-2 relative group">
-                    <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Service Preferences / Special Requests</label>
-                    <div className="relative">
-                      <div className="absolute top-5 left-0 pl-4 pointer-events-none">
-                        <MessageSquare className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
+                    {/* Phone Number */}
+                    <div className="space-y-2 relative group">
+                      <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Phone number</label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <Phone className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
+                        </div>
+                        <input required name="phone" value={formData.phone} onChange={handleInputChange} type="tel" placeholder="+234 800 000 0000" className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-white placeholder:text-white/20 focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm" />
                       </div>
-                      <textarea name="preferences" value={formData.preferences} onChange={handleInputChange} rows={3} placeholder="Tell us how we can make your experience exceptional..." className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-gold-300 placeholder:text-white/20 focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm resize-none"></textarea>
+                    </div>
+
+                    {/* Email */}
+                    <div className="space-y-2 relative group">
+                      <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Email</label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <Mail className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
+                        </div>
+                        <input required name="email" value={formData.email} onChange={handleInputChange} type="email" placeholder="john@example.com" className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-white placeholder:text-white/20 focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm" />
+                      </div>
                     </div>
                   </div>
 
@@ -239,11 +249,11 @@ Please let me know how to proceed with the deposit payment.`;
                   className="space-y-8 flex flex-col items-center py-8"
                 >
                   <div className="text-center space-y-4">
-                    <h3 className="text-xl text-white font-serif">Your VIP Booking Code</h3>
+                    <h3 className="text-xl text-gold-500 font-serif">Your VIP Booking Code</h3>
                     <div className="bg-black border border-gold-500/30 py-6 px-12 rounded-sm shadow-[0_0_30px_rgba(212,175,55,0.15)]">
                       <span className="text-4xl md:text-5xl font-mono text-gold-500 tracking-widest">{generatedCode}</span>
                     </div>
-                    <p className="text-gold-400/70 text-sm max-w-md mx-auto mt-4 font-light">
+                    <p className="text-white/70 text-sm max-w-md mx-auto mt-4 font-light">
                       Please accept this code to secure your reservation. You will be redirected to our official WhatsApp to finalize your deposit.
                     </p>
                   </div>
