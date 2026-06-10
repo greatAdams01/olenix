@@ -205,6 +205,7 @@ export default function Dashboard() {
                 <label className="text-[10px] uppercase tracking-widest text-white/50 block mb-1">Date</label>
                 <input 
                   type="date" 
+                  min={new Date().toISOString().split('T')[0]}
                   value={editForm.date} 
                   onChange={e => setEditForm({...editForm, date: e.target.value})}
                   className="w-full bg-black border border-white/10 p-2 text-white text-sm rounded-sm [color-scheme:dark]"

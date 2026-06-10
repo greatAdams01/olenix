@@ -186,7 +186,7 @@ Please let me know how to proceed with the deposit payment.`;
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                           <Calendar className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
                         </div>
-                        <input required name="date" value={formData.date} onChange={handleInputChange} type="date" className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-white focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm [color-scheme:dark]" />
+                        <input required name="date" value={formData.date} onChange={handleInputChange} type="date" min={new Date().toISOString().split('T')[0]} className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-white focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm [color-scheme:dark]" />
                       </div>
                     </div>
 
