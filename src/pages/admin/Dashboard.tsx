@@ -119,28 +119,28 @@ export default function Dashboard() {
                 <td className="p-4 text-right space-x-2 whitespace-nowrap">
                   <button 
                     onClick={() => setViewingBooking(b)} 
-                    className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-sm transition-colors" title="View Full Details"
+                    className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-white/70 hover:text-white hover:bg-white/10 rounded-sm transition-colors"
                   >
-                    <Eye className="w-4 h-4" />
+                    View
                   </button>
                   {b.status !== 'confirmed' && (
-                    <button onClick={() => updateStatus(b.id, 'confirmed')} className="p-2 text-green-400 hover:bg-green-500/10 rounded-sm transition-colors" title="Confirm Payment">
-                      <CheckCircle className="w-4 h-4" />
+                    <button onClick={() => updateStatus(b.id, 'confirmed')} className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-green-400 hover:bg-green-500/10 rounded-sm transition-colors">
+                      Confirm
                     </button>
                   )}
                   {b.status !== 'cancelled' && (
-                    <button onClick={() => updateStatus(b.id, 'cancelled')} className="p-2 text-yellow-400 hover:bg-yellow-500/10 rounded-sm transition-colors" title="Cancel Booking">
-                      <XCircle className="w-4 h-4" />
+                    <button onClick={() => updateStatus(b.id, 'cancelled')} className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-yellow-400 hover:bg-yellow-500/10 rounded-sm transition-colors">
+                      Cancel
                     </button>
                   )}
                   <button 
                     onClick={() => { setEditingBooking(b); setEditForm({ date: b.date, time: b.time }); }} 
-                    className="p-2 text-blue-400 hover:bg-blue-500/10 rounded-sm transition-colors" title="Edit Date/Time"
+                    className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-blue-400 hover:bg-blue-500/10 rounded-sm transition-colors"
                   >
-                    <Edit className="w-4 h-4" />
+                    Edit
                   </button>
-                  <button onClick={() => deleteBooking(b.id)} className="p-2 text-red-400 hover:bg-red-500/10 rounded-sm transition-colors" title="Delete Permanently">
-                    <Trash2 className="w-4 h-4" />
+                  <button onClick={() => deleteBooking(b.id)} className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-red-400 hover:bg-red-500/10 rounded-sm transition-colors">
+                    Delete
                   </button>
                 </td>
               </tr>

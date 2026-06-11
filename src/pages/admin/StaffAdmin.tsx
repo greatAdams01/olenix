@@ -133,8 +133,8 @@ export default function StaffAdmin() {
                 </td>
                 <td className="p-4 text-right">
                   {admin.role !== 'super_admin' && (
-                    <button onClick={() => deleteAdmin(admin.id, admin.email)} className="p-2 text-red-400 hover:bg-red-500/10 rounded-sm transition-colors" title="Revoke Access">
-                      <Trash2 className="w-4 h-4" />
+                    <button onClick={() => deleteAdmin(admin.id, admin.email)} className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-red-400 hover:bg-red-500/10 rounded-sm transition-colors">
+                      Remove
                     </button>
                   )}
                 </td>

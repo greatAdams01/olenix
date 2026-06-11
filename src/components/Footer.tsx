@@ -8,9 +8,9 @@ export default function Footer() {
         <span className="text-[10px] font-light text-white/70">KM 47, Lekki-Epe Express Way, Oko-Ado, Lagos.</span>
       </div>
       <div className="flex flex-wrap md:flex-nowrap gap-4 md:gap-6">
-        <a href="#" className="text-[9px] uppercase tracking-widest text-white/60 hover:text-white transition-colors">IG: @olenixlounge</a>
-        <a href="#" className="text-[9px] uppercase tracking-widest text-white/60 hover:text-white transition-colors">TikTok: @olenix_xclusivelounge</a>
-        <a href="#" className="text-[9px] uppercase tracking-widest text-white/60 hover:text-white transition-colors">FB: Olenix Olenix</a>
+        <a href="https://www.instagram.com/olenixlounge?utm_source=qr" target="_blank" rel="noopener noreferrer" className="text-[9px] uppercase tracking-widest text-white/60 hover:text-white transition-colors">IG: @olenixlounge</a>
+        <a href="https://www.tiktok.com/@olenix_xclusivelounge?_r=1&_t=ZS-972zVKSYM1F" target="_blank" rel="noopener noreferrer" className="text-[9px] uppercase tracking-widest text-white/60 hover:text-white transition-colors">TikTok: @olenix_xclusivelounge</a>
+        <a href="https://www.facebook.com/profile.php?id=61587656250891&mibextid=rS40aB7S9Ucbxw6v" target="_blank" rel="noopener noreferrer" className="text-[9px] uppercase tracking-widest text-white/60 hover:text-white transition-colors">FB: Olenix Olenix</a>
       </div>
     </footer>
   );

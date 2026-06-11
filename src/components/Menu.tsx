@@ -8,26 +8,52 @@ export default function Menu() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [menuItems, setMenuItems] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const q = query(collection(db, 'menu'));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map(doc => doc.data());
-      setMenuItems(data);
+    const qItems = query(collection(db, 'menu'));
+    const unsubItems = onSnapshot(qItems, (snapshot) => {
+      setMenuItems(snapshot.docs.map(doc => doc.data()));
+    });
+
+    const qCats = query(collection(db, 'menu_categories'));
+    const unsubCats = onSnapshot(qCats, (snapshot) => {
+      setCategories(snapshot.docs.map(doc => doc.data()));
       setLoading(false);
     });
-    return unsubscribe;
+
+    return () => { unsubItems(); unsubCats(); };
   }, []);
 
-  const groupedMenu = menuItems.reduce((acc, item) => {
-    if (!acc[item.category]) acc[item.category] = { category: item.category, items: [] };
-    acc[item.category].items.push(item);
-    return acc;
-  }, {} as Record<string, { category: string, items: any[] }>);
+  const fullMenu = categories.map(cat => ({
+    category: cat.name,
+    imageUrl: cat.imageUrl,
+    items: menuItems.filter(item => item.category === cat.name)
+  })).filter(section => section.items.length > 0);
 
-  const fullMenu = Object.values(groupedMenu);
-  const featuredMenuItems = fullMenu.slice(0, 3);
+  const existingCatNames = categories.map(c => c.name);
+  const orphanItems = menuItems.filter(item => !existingCatNames.includes(item.category));
+  if (orphanItems.length > 0) {
+    const orphanGroups = orphanItems.reduce((acc, item) => {
+      if (!acc[item.category]) acc[item.category] = [];
+      acc[item.category].push(item);
+      return acc;
+    }, {} as Record<string, any[]>);
+    
+    for (const [catName, items] of Object.entries(orphanGroups)) {
+      fullMenu.push({
+        category: catName,
+        imageUrl: '',
+        items
+      });
+    }
+  }
+
+  const featuredMenuItems = fullMenu.slice(0, 3).map(section => ({
+    ...section,
+    items: section.items.slice(0, 4)
+  }));
 
   const filteredMenu = fullMenu.map(section => ({
     ...section,
@@ -60,10 +86,16 @@ export default function Menu() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className="flex flex-col gap-8"
+                className="flex flex-col gap-6"
               >
+                {section.imageUrl && (
+                  <div className="w-full h-48 sm:h-64 rounded-sm overflow-hidden relative mb-2">
+                    <img src={section.imageUrl} alt={section.category} className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-black/20" />
+                  </div>
+                )}
                 <h3 className="text-xl font-serif text-gold-500 uppercase tracking-widest border-b border-gold-500/20 pb-4">{section.category}</h3>
-                <div className="flex flex-col gap-8">
+                <div className="flex flex-col gap-6">
                   {section.items.map((item, i) => (
                     <div key={i} className="group cursor-pointer">
                       <div className="flex justify-between items-baseline mb-2">
