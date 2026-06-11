@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { collection, query, onSnapshot, doc, addDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { collection, query, onSnapshot, doc, addDoc, updateDoc, deleteDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { Plus, Loader2, Image as ImageIcon } from 'lucide-react';
 
@@ -103,7 +103,8 @@ export default function MenuAdmin() {
       if (editingCatId) {
         await updateDoc(doc(db, 'menu_categories', editingCatId), catFormData);
       } else {
-        await addDoc(collection(db, 'menu_categories'), catFormData);
+        const id = catFormData.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+        await setDoc(doc(db, 'menu_categories', id), catFormData);
       }
       closeCatModal();
     } catch (err) {
@@ -131,6 +132,13 @@ export default function MenuAdmin() {
     return acc;
   }, {} as Record<string, any[]>);
 
+  const dbCatNames = categories.map(c => c.name);
+  const orphanCats = Object.keys(groupedMenu)
+    .filter(name => !dbCatNames.includes(name))
+    .map(name => ({ id: null, name, imageUrl: '' }));
+
+  const displayCategories = [...categories, ...orphanCats];
+
   if (loading) return <div className="text-white/50 animate-pulse">Loading menu...</div>;
 
   return (
@@ -151,8 +159,8 @@ export default function MenuAdmin() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {categories.map((cat) => (
-            <div key={cat.id} className="bg-black border border-white/10 rounded-sm overflow-hidden flex flex-col group relative">
+          {displayCategories.map((cat, idx) => (
+            <div key={cat.id || `orphan-${idx}`} className="bg-black border border-white/10 rounded-sm overflow-hidden flex flex-col group relative">
               {cat.imageUrl ? (
                 <div className="h-32 w-full relative">
                   <img src={cat.imageUrl} alt={cat.name} className="w-full h-full object-cover" />
@@ -168,16 +176,18 @@ export default function MenuAdmin() {
                 <h3 className="font-serif text-gold-500 text-lg uppercase tracking-widest">{cat.name}</h3>
                 <div className="flex items-center gap-2">
                   <button onClick={() => openCatModal(cat)} className="px-2 py-1 bg-white/10 text-[10px] font-bold uppercase tracking-widest text-white hover:bg-white/20 rounded-sm transition-colors">
-                    Edit
+                    {cat.id ? 'Edit' : 'Add Image'}
                   </button>
-                  <button onClick={() => handleCatDelete(cat.id)} className="px-2 py-1 bg-red-500/20 text-[10px] font-bold uppercase tracking-widest text-red-400 hover:bg-red-500/40 rounded-sm transition-colors">
-                    Delete
-                  </button>
+                  {cat.id && (
+                    <button onClick={() => handleCatDelete(cat.id)} className="px-2 py-1 bg-red-500/20 text-[10px] font-bold uppercase tracking-widest text-red-400 hover:bg-red-500/40 rounded-sm transition-colors">
+                      Delete
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
           ))}
-          {categories.length === 0 && (
+          {displayCategories.length === 0 && (
             <div className="col-span-full p-8 text-center text-white/40 border border-white/10 rounded-sm text-sm">
               No categories found. Create one first!
             </div>
@@ -247,9 +257,9 @@ export default function MenuAdmin() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="text-[10px] uppercase tracking-widest text-white/50 block mb-1">Category</label>
-                {categories.length > 0 ? (
+                {displayCategories.length > 0 ? (
                   <select required value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} className="w-full bg-black border border-white/10 py-3 px-4 text-white text-sm rounded-sm focus:border-gold-500 outline-none">
-                    {categories.map(cat => <option key={cat.id} value={cat.name}>{cat.name}</option>)}
+                    {displayCategories.map((cat, idx) => <option key={cat.id || `opt-${idx}`} value={cat.name}>{cat.name}</option>)}
                   </select>
                 ) : (
                   <input required type="text" placeholder="Create a category first..." disabled className="w-full bg-black border border-white/10 py-3 px-4 text-white/50 text-sm rounded-sm cursor-not-allowed" />
@@ -272,7 +282,7 @@ export default function MenuAdmin() {
               
               <div className="pt-4 flex gap-4">
                 <button type="button" onClick={closeModal} className="flex-1 py-4 text-[10px] uppercase tracking-widest border border-white/10 hover:bg-white/5 text-white/60 transition-colors rounded-sm font-bold">Cancel</button>
-                <button type="submit" disabled={isSubmitting || categories.length === 0} className="flex-1 py-4 text-[10px] uppercase tracking-widest bg-gold-500 hover:bg-gold-400 text-black font-bold flex items-center justify-center gap-2 transition-colors rounded-sm disabled:opacity-50">
+                <button type="submit" disabled={isSubmitting || displayCategories.length === 0} className="flex-1 py-4 text-[10px] uppercase tracking-widest bg-gold-500 hover:bg-gold-400 text-black font-bold flex items-center justify-center gap-2 transition-colors rounded-sm disabled:opacity-50">
                   {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
                   {editingId ? 'Save Changes' : 'Create Item'}
                 </button>
