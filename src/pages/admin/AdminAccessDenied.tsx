@@ -14,7 +14,7 @@ export default function AdminAccessDenied() {
 values (
   '${currentUser.id}',
   '${currentUser.email ?? 'your@email.com'}',
-  'super_admin'
+  'admin'
 )
 on conflict (id) do update
   set email = excluded.email,

@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, type FormEvent } from 'react';
 import { supabase } from '../../lib/supabase';
 import { isRpcMissing, parseRpcPayload, rpcErrorMessage, rpcMissingMessage } from '../../lib/rpc';
 import { buildStaffWelcomeMessage, generateStaffPassword, staffLoginUrl } from '../../lib/staffHelpers';
-import type { Admin, AdminRow } from '../../types/database';
+import type { Admin } from '../../types/database';
 import { Shield, Plus, Loader2, X, CheckCircle2, Copy, UserPlus, Link2 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
@@ -21,21 +21,28 @@ export default function StaffAdmin() {
   const [error, setError] = useState('');
   const [welcomeMessage, setWelcomeMessage] = useState('');
   const [copied, setCopied] = useState(false);
+  const [listError, setListError] = useState('');
 
   const fetchAdmins = useCallback(async () => {
-    const { data, error: fetchError } = await supabase.rpc('list_admins');
+    const { data, error: fetchError } = await supabase
+      .from('admins')
+      .select('id, email, role, created_at')
+      .order('created_at', { ascending: true });
 
     if (fetchError) {
       console.error(fetchError);
-      if (isRpcMissing(fetchError)) {
-        console.warn(rpcMissingMessage('menuStaff'));
-      }
+      setListError(
+        isRpcMissing(fetchError)
+          ? 'Staff list is not set up yet. Run migration 010_admins_list_policy.sql in Supabase SQL Editor.'
+          : 'Could not load staff. Try refreshing the page.',
+      );
       setLoading(false);
       return;
     }
 
+    setListError('');
     setAdmins(
-      ((data ?? []) as AdminRow[]).map((row) => ({
+      (data ?? []).map((row) => ({
         id: row.id,
         email: row.email,
         role: row.role,
@@ -180,10 +187,16 @@ export default function StaffAdmin() {
 
     const newUserId = signUpData.user?.id;
     if (!newUserId) {
-      setError('Account was not created. Ask your developer to turn off email confirmation in Supabase Auth settings.');
+      setError('Account was not created. In Supabase, go to Authentication → Providers → Email and turn off "Confirm email".');
       setIsSubmitting(false);
       return;
     }
+
+    // signUp signs in as the new user — switch back before linking admin access
+    await supabase.auth.setSession({
+      access_token: session.access_token,
+      refresh_token: session.refresh_token,
+    });
 
     const { data: insertData, error: insertError } = await supabase.rpc('add_admin_record', {
       p_user_id: newUserId,
@@ -203,12 +216,6 @@ export default function StaffAdmin() {
       setIsSubmitting(false);
       return;
     }
-
-    await supabase.auth.signOut();
-    await supabase.auth.setSession({
-      access_token: session.access_token,
-      refresh_token: session.refresh_token,
-    });
 
     setWelcomeMessage(buildStaffWelcomeMessage(email, formData.password));
     setFormData({ email: '', password: '', confirmPassword: '' });
@@ -242,7 +249,16 @@ export default function StaffAdmin() {
           <li>Click <strong className="text-white">Create staff</strong>, then copy the welcome message and send it to them (WhatsApp, email, etc.)</li>
           <li>They sign in at <span className="text-gold-500 font-mono text-xs">{staffLoginUrl()}</span> and can change their password under Settings</li>
         </ol>
+        <p className="text-xs text-white/40">
+          One-time setup: in Supabase → Authentication → Providers → Email, turn off &quot;Confirm email&quot; so new staff can log in right away.
+        </p>
       </div>
+
+      {listError && (
+        <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-sm">
+          <p className="text-sm text-red-400">{listError}</p>
+        </div>
+      )}
 
       {welcomeMessage && (
         <div className="p-5 bg-green-500/10 border border-green-500/30 rounded-sm space-y-3">
@@ -377,7 +393,7 @@ export default function StaffAdmin() {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full bg-black border border-white/10 py-3 px-4 text-white text-sm rounded-sm focus:border-gold-500 outline-none"
-                  placeholder="manager@olenix.com"
+                  placeholder="manager@olenixlounge.com"
                 />
               </div>
 

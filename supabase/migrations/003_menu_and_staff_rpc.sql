@@ -260,7 +260,7 @@ begin
     return json_build_object('ok', false, 'error', 'not_found');
   end if;
 
-  if target_role = 'super_admin' or target_email = 'admin@olenix.com' then
+  if target_role = 'super_admin' or target_email = 'admin@olenixlounge.com' then
     return json_build_object('ok', false, 'error', 'cannot_remove_super_admin');
   end if;
 
