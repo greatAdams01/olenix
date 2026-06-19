@@ -10,7 +10,7 @@ import {
 } from '../../lib/menuApi';
 import { rpcErrorMessage } from '../../lib/rpc';
 import { mapCategory, mapMenuItem, type MenuCategory, type MenuItem } from '../../types/database';
-import { getCategoryImageUrl, resolveImageUrl } from '../../lib/menuImages';
+import { resolveImageUrl } from '../../lib/menuImages';
 import { Plus, Loader2, Image as ImageIcon, Search } from 'lucide-react';
 
 export default function MenuAdmin() {
@@ -236,7 +236,7 @@ export default function MenuAdmin() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {filteredCategories.map((cat, idx) => {
             const previewUrl = cat.id
-              ? getCategoryImageUrl(cat.id, cat.imageUrl)
+              ? resolveImageUrl(cat.imageUrl)
               : resolveImageUrl(cat.imageUrl);
             return (
             <div key={cat.id || `orphan-${idx}`} className="bg-black border border-white/10 rounded-sm overflow-hidden flex flex-col group relative">

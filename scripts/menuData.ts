@@ -7,7 +7,13 @@ export function naira(amount: number): string {
 type MenuEntry = { category: string; name: string; price: string; description?: string };
 
 export const categories = [
+  { id: 'cognac', name: 'Cognac', image_url: '' },
+  { id: 'whiskey-brandy', name: 'Whiskey & Brandy', image_url: '' },
+  { id: 'wine', name: 'Wine', image_url: '' },
+  { id: 'tequila', name: 'Tequila', image_url: '' },
+  { id: 'champagne', name: 'Champagne', image_url: '' },
   { id: 'spirit-vodka', name: 'Spirit & Vodka', image_url: '' },
+  { id: 'premium-additions', name: 'Premium Additions', image_url: '' },
   { id: 'herbs-drinks', name: 'Herbs Drinks', image_url: '' },
   { id: 'energy', name: 'Energy', image_url: '' },
   { id: 'beer', name: 'Beer', image_url: '' },
@@ -38,6 +44,82 @@ export const categories = [
 ] as const;
 
 export const menuItems: MenuEntry[] = [
+  // ── COGNAC (premium spirits menu) ──
+  { category: 'Cognac', name: 'Martel Swift', price: naira(140000) },
+  { category: 'Cognac', name: 'Martel VS', price: naira(90000) },
+  { category: 'Cognac', name: 'Martel XO', price: naira(400000) },
+  { category: 'Cognac', name: 'Hennessy VS', price: naira(90000) },
+  { category: 'Cognac', name: 'Hennessy VSOP', price: naira(140000) },
+  { category: 'Cognac', name: 'Hennessy XO', price: naira(400000) },
+  { category: 'Cognac', name: 'Remy Martins', price: naira(150000) },
+  { category: 'Cognac', name: 'Lise (B) VSOP', price: naira(100000) },
+  { category: 'Cognac', name: 'Lise (B) Cocktail', price: naira(70000) },
+  { category: 'Cognac', name: 'Lise (B) Fine Cognac', price: naira(85000) },
+
+  // ── WHISKEY & BRANDY ──
+  { category: 'Whiskey & Brandy', name: 'Glenfiddich 18 Years', price: naira(180000) },
+  { category: 'Whiskey & Brandy', name: 'Glenfiddich 12 Years', price: naira(90000) },
+  { category: 'Whiskey & Brandy', name: 'Glenfiddich 15 Years', price: naira(140000) },
+  { category: 'Whiskey & Brandy', name: 'Singleton 12 Years', price: naira(100000) },
+  { category: 'Whiskey & Brandy', name: 'Singleton 15 Years', price: naira(145000) },
+  { category: 'Whiskey & Brandy', name: 'Jameson Black', price: naira(70000) },
+  { category: 'Whiskey & Brandy', name: 'Jameson Green', price: naira(45000) },
+  { category: 'Whiskey & Brandy', name: 'Jack Daniel', price: naira(40000) },
+  { category: 'Whiskey & Brandy', name: 'Observatory', price: naira(70000) },
+  { category: 'Whiskey & Brandy', name: 'Monkey Shoulder', price: naira(80000) },
+  { category: 'Whiskey & Brandy', name: 'Artesnes', price: naira(40000) },
+  { category: 'Whiskey & Brandy', name: 'William Lawson', price: naira(35000) },
+  { category: 'Whiskey & Brandy', name: 'William Lawson SM', price: naira(10000) },
+  { category: 'Whiskey & Brandy', name: 'Red Label', price: naira(35000) },
+  { category: 'Whiskey & Brandy', name: 'Tullamore', price: naira(45000) },
+  { category: 'Whiskey & Brandy', name: 'Viecchia', price: naira(75000) },
+  { category: 'Whiskey & Brandy', name: 'Grants', price: naira(40000) },
+  { category: 'Whiskey & Brandy', name: 'Campari (B)', price: naira(35000) },
+  { category: 'Whiskey & Brandy', name: 'Campari (M)', price: naira(25000) },
+  { category: 'Whiskey & Brandy', name: 'Campari (S)', price: naira(10000) },
+
+  // ── WINE ──
+  { category: 'Wine', name: '4 Cousins', price: naira(20000) },
+  { category: 'Wine', name: 'Carlo Rossi', price: naira(25000) },
+  { category: 'Wine', name: 'Asconi Agor', price: naira(25000) },
+  { category: 'Wine', name: 'Escudo Rojo', price: naira(35000) },
+  { category: 'Wine', name: 'Expression', price: naira(35000) },
+  { category: 'Wine', name: 'Fidossi Red Wine', price: naira(35000) },
+  { category: 'Wine', name: 'Lambrusco', price: naira(35000) },
+  { category: 'Wine', name: 'Castillo Grande', price: naira(20000) },
+  { category: 'Wine', name: 'Sweet Kiss Red/Rose', price: naira(25000) },
+  { category: 'Wine', name: 'Festa Wine Red/Rose', price: naira(25000) },
+  { category: 'Wine', name: 'Declao 4th Street Wine', price: naira(25000) },
+  { category: 'Wine', name: 'Henkel Piccolo', price: naira(30000) },
+  { category: 'Wine', name: 'Schoenaich Wine', price: naira(30000) },
+  { category: 'Wine', name: 'Le-Filou', price: naira(30000) },
+  { category: 'Wine', name: 'Chewaraze Merlot', price: naira(30000) },
+  { category: 'Wine', name: 'Les Vignerons', price: naira(30000) },
+  { category: 'Wine', name: "Cheval d'Elena Edward's Wine", price: naira(30000) },
+  { category: 'Wine', name: 'Wein', price: naira(30000) },
+  { category: 'Wine', name: 'Rot Wein', price: naira(30000) },
+  { category: 'Wine', name: 'Stettyn Red Wine', price: naira(25000) },
+  { category: 'Wine', name: 'Stettyn Sweet Wine', price: naira(25000) },
+  { category: 'Wine', name: 'Cartier Wine (S)', price: naira(6000) },
+  { category: 'Wine', name: 'Babelki C', price: naira(30000) },
+
+  // ── TEQUILA ──
+  { category: 'Tequila', name: 'Sierra White', price: naira(30000) },
+  { category: 'Tequila', name: 'Casamigo', price: naira(200000) },
+  { category: 'Tequila', name: 'Sierra Gold', price: naira(35000) },
+  { category: 'Tequila', name: 'Sierra Tropical', price: naira(35000) },
+  { category: 'Tequila', name: 'Olmeca', price: naira(45000) },
+  { category: 'Tequila', name: 'Agavales', price: naira(30000) },
+  { category: 'Tequila', name: 'Bacardi White/Gold', price: naira(30000) },
+
+  // ── CHAMPAGNE ──
+  { category: 'Champagne', name: 'Belaire Rose', price: naira(80000) },
+  { category: 'Champagne', name: 'Moet Rose', price: naira(150000) },
+  { category: 'Champagne', name: 'Moet Ice', price: naira(150000) },
+  { category: 'Champagne', name: 'Martini Rose', price: naira(30000) },
+  { category: 'Champagne', name: 'Mood', price: naira(65000) },
+  { category: 'Champagne', name: 'Moet Chandon', price: naira(150000) },
+
   // ── SPIRIT & VODKA ──
   { category: 'Spirit & Vodka', name: 'Belvedere Big', price: naira(90000) },
   { category: 'Spirit & Vodka', name: 'Belvedere Medium', price: naira(70000) },
@@ -56,11 +138,19 @@ export const menuItems: MenuEntry[] = [
   { category: 'Spirit & Vodka', name: "Gordon's", price: naira(15000) },
   { category: 'Spirit & Vodka', name: 'Magic Moment', price: naira(6000) },
   { category: 'Spirit & Vodka', name: 'Smirnoff Vodka X1', price: naira(15000) },
+  { category: 'Spirit & Vodka', name: 'Smirnoff 100 Quality', price: naira(10000) },
   { category: 'Spirit & Vodka', name: 'Smirnoff Ice Gin Medium', price: naira(8000) },
   { category: 'Spirit & Vodka', name: 'Smirnoff Ice Gin Small', price: naira(6000) },
   { category: 'Spirit & Vodka', name: 'Jagermeister', price: naira(45000) },
   { category: 'Spirit & Vodka', name: "Gordon's Small", price: naira(6000) },
   { category: 'Spirit & Vodka', name: "Gordon's Medium", price: naira(8000) },
+
+  // ── PREMIUM ADDITIONS ──
+  { category: 'Premium Additions', name: '1960 Root', price: naira(15000) },
+  { category: 'Premium Additions', name: 'American Honey', price: naira(40000) },
+  { category: 'Premium Additions', name: 'Declan', price: naira(20000) },
+  { category: 'Premium Additions', name: 'Cooper & Thief', price: naira(80000) },
+  { category: 'Premium Additions', name: 'Remy Martins', price: naira(150000) },
 
   // ── HERBS DRINKS ──
   { category: 'Herbs Drinks', name: 'Origin Plastic', price: naira(2500) },

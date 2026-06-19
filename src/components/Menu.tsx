@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, Search } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { listMenuCategories, listMenuItems } from '../lib/menuApi';
-import { getCategoryImageUrl } from '../lib/menuImages';
+import { resolveImageUrl } from '../lib/menuImages';
 import { mapCategory, mapMenuItem, type MenuCategory, type MenuItem } from '../types/database';
 
 export default function Menu() {
@@ -48,7 +48,7 @@ export default function Menu() {
   const fullMenu = categories.map((cat) => ({
     id: cat.id,
     category: cat.name,
-    imageUrl: getCategoryImageUrl(cat.id, cat.imageUrl),
+    imageUrl: resolveImageUrl(cat.imageUrl),
     items: menuItems.filter((item) => item.category === cat.name),
   })).filter((section) => section.items.length > 0);
 
@@ -67,12 +67,7 @@ export default function Menu() {
   }
 
   const featuredMenuItems = [...fullMenu]
-    .sort((a, b) => {
-      const aHasImage = !!a.imageUrl;
-      const bHasImage = !!b.imageUrl;
-      if (aHasImage !== bHasImage) return aHasImage ? -1 : 1;
-      return a.category.localeCompare(b.category);
-    })
+    .sort((a, b) => a.category.localeCompare(b.category))
     .slice(0, 3)
     .map((section) => ({
       ...section,
