@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import About from '../components/About';
@@ -9,8 +10,11 @@ import Reservations from '../components/Reservations';
 import FAQ from '../components/FAQ';
 import Footer from '../components/Footer';
 import BookingModal from '../components/BookingModal';
+import { watchHashScroll } from '../lib/hashScroll';
 
 export default function PublicPage() {
+  useEffect(() => watchHashScroll(), []);
+
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-white/20">
       <Navbar />
