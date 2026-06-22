@@ -8,6 +8,7 @@ import Menu from '../components/Menu';
 import Gallery from '../components/Gallery';
 import Reservations from '../components/Reservations';
 import FAQ from '../components/FAQ';
+import MapSection from '../components/MapSection';
 import Footer from '../components/Footer';
 import BookingModal from '../components/BookingModal';
 import { watchHashScroll } from '../lib/hashScroll';
@@ -26,6 +27,7 @@ export default function PublicPage() {
       <Gallery />
       <Reservations />
       <FAQ />
+      <MapSection />
       <Footer />
       <BookingModal />
     </div>
