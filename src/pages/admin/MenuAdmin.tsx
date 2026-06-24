@@ -11,7 +11,7 @@ import {
 import { rpcErrorMessage } from '../../lib/rpc';
 import { mapCategory, mapMenuItem, type MenuCategory, type MenuItem } from '../../types/database';
 import { resolveImageUrl } from '../../lib/menuImages';
-import { Plus, Loader2, Image as ImageIcon, Search } from 'lucide-react';
+import { Plus, Loader2, Image as ImageIcon, Search, Printer } from 'lucide-react';
 
 export default function MenuAdmin() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -208,7 +208,7 @@ export default function MenuAdmin() {
 
   return (
     <div className="space-y-12">
-      <div>
+      <div className="print:hidden">
         <div className="flex justify-between items-center mb-6">
           <div>
             <h2 className="text-xl font-serif text-white mb-1">Categories</h2>
@@ -275,21 +275,29 @@ export default function MenuAdmin() {
         </div>
       </div>
 
-      <div className="border-t border-white/10 pt-12">
-        <div className="flex justify-between items-center mb-6">
+      <div className="border-t border-white/10 pt-12 print:border-none print:pt-0">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 print:hidden">
           <div>
             <h2 className="text-xl font-serif text-white mb-1">Menu Items</h2>
             <p className="text-[10px] text-white/50 tracking-widest uppercase">Update prices and dishes</p>
           </div>
-          <button 
-            onClick={() => openModal()}
-            className="flex items-center gap-2 px-6 py-3 bg-gold-500 text-black text-[10px] font-bold uppercase tracking-widest hover:bg-gold-400 transition-colors rounded-sm"
-          >
-            <Plus className="w-4 h-4" /> Add Item
-          </button>
+          <div className="flex gap-2">
+            <button 
+              onClick={() => window.print()}
+              className="flex items-center gap-2 px-6 py-3 bg-white/10 text-white text-[10px] font-bold uppercase tracking-widest hover:bg-white/20 transition-colors rounded-sm"
+            >
+              <Printer className="w-4 h-4" /> Print
+            </button>
+            <button 
+              onClick={() => openModal()}
+              className="flex items-center gap-2 px-6 py-3 bg-gold-500 text-black text-[10px] font-bold uppercase tracking-widest hover:bg-gold-400 transition-colors rounded-sm"
+            >
+              <Plus className="w-4 h-4" /> Add Item
+            </button>
+          </div>
         </div>
 
-        <div className="relative mb-6 max-w-md">
+        <div className="relative mb-6 max-w-md print:hidden">
           <Search className="w-4 h-4 text-white/40 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
@@ -331,7 +339,7 @@ export default function MenuAdmin() {
                       </div>
                       <p className="text-xs text-white/50 font-light max-w-2xl">{item.desc}</p>
                     </div>
-                    <div className="flex items-center gap-2 shrink-0">
+                    <div className="flex items-center gap-2 shrink-0 print:hidden">
                       <button onClick={() => openModal(item)} className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-blue-400 hover:bg-blue-500/10 rounded-sm transition-colors">
                         Edit
                       </button>
@@ -359,7 +367,7 @@ export default function MenuAdmin() {
                       </div>
                       <p className="text-xs text-white/50 font-light max-w-2xl">{item.desc}</p>
                     </div>
-                    <div className="flex items-center gap-2 shrink-0">
+                    <div className="flex items-center gap-2 shrink-0 print:hidden">
                       <button onClick={() => openModal(item)} className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-blue-400 hover:bg-blue-500/10 rounded-sm transition-colors">
                         Edit
                       </button>

@@ -39,6 +39,9 @@ export default function Dashboard() {
   }, [fetchBookings]);
 
   const updateStatus = async (id: string, newStatus: string) => {
+    // Optimistic update
+    setBookings(bookings.map(b => b.id === id ? { ...b, status: newStatus as any } : b));
+
     const { error } = await supabase
       .from('vip_bookings')
       .update({ status: newStatus as 'pending' | 'confirmed' | 'cancelled' })
@@ -47,20 +50,30 @@ export default function Dashboard() {
     if (error) {
       console.error(error);
       alert(isRlsDenied(error) ? rlsDeniedMessage() : 'Failed to update status');
+      fetchBookings(); // Revert on error
     }
   };
 
   const deleteBooking = async (id: string) => {
     if (!confirm('Are you sure you want to delete this booking permanently?')) return;
+    
+    // Optimistic update
+    setBookings(bookings.filter(b => b.id !== id));
+
     const { error } = await supabase.from('vip_bookings').delete().eq('id', id);
     if (error) {
       console.error(error);
       alert(isRlsDenied(error) ? rlsDeniedMessage() : 'Failed to delete booking');
+      fetchBookings(); // Revert on error
     }
   };
 
   const saveEdit = async () => {
     if (!editingBooking) return;
+
+    // Optimistic update
+    setBookings(bookings.map(b => b.id === editingBooking.id ? { ...b, date: editForm.date, time: editForm.time } : b));
+
     const { error } = await supabase
       .from('vip_bookings')
       .update({ date: editForm.date, time: editForm.time })
@@ -69,6 +82,7 @@ export default function Dashboard() {
     if (error) {
       console.error(error);
       alert(isRlsDenied(error) ? rlsDeniedMessage() : 'Failed to update booking details');
+      fetchBookings(); // Revert on error
       return;
     }
     setEditingBooking(null);

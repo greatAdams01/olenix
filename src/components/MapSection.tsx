@@ -28,7 +28,7 @@ export default function MapSection() {
         
         <div className="w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden border border-white/10 relative bg-zinc-900">
           <iframe 
-            src="https://maps.google.com/maps?q=KM+47,+Lekki-Epe+Express+Way,+Oko-Ado,+Lagos&t=m&z=14&ie=UTF8&iwloc=&output=embed" 
+            src="https://maps.google.com/maps?q=Olenix+Lounge,+Lekki-Epe+Express+Way,+Lagos&t=m&z=15&ie=UTF8&iwloc=&output=embed" 
             width="100%" 
             height="100%" 
             style={{ border: 0 }} 

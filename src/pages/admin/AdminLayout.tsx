@@ -54,7 +54,7 @@ export default function AdminLayout() {
       )}
 
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-black border-r border-white/10 flex flex-col transition-transform duration-300 md:relative md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`print:hidden fixed inset-y-0 left-0 z-50 w-64 bg-black border-r border-white/10 flex flex-col transition-transform duration-300 md:relative md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="p-6 border-b border-white/10 flex justify-between items-center">
           <div>
             <h1 className="font-serif text-2xl text-gold-500 uppercase tracking-widest">Admin</h1>
@@ -101,7 +101,7 @@ export default function AdminLayout() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col h-screen overflow-hidden w-full">
         {/* Mobile Header */}
-        <header className="md:hidden flex items-center justify-between p-4 bg-black border-b border-white/10 shrink-0">
+        <header className="print:hidden md:hidden flex items-center justify-between p-4 bg-black border-b border-white/10 shrink-0">
           <div className="flex items-center gap-3">
             <button onClick={() => setIsMobileMenuOpen(true)} className="text-white hover:text-gold-500 transition-colors">
               <Menu className="w-6 h-6" />
