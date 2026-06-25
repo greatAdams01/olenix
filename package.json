@@ -13,6 +13,8 @@
     "generate:menu-sql": "tsx scripts/generate_menu_sql.ts"
   },
   "dependencies": {
+    "@cloudinary/react": "^1.14.4",
+    "@cloudinary/url-gen": "^1.22.0",
     "@google/genai": "^2.4.0",
     "@supabase/supabase-js": "^2.49.1",
     "@tailwindcss/vite": "^4.1.14",

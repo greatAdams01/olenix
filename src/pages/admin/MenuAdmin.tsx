@@ -12,6 +12,7 @@ import { rpcErrorMessage } from '../../lib/rpc';
 import { mapCategory, mapMenuItem, type MenuCategory, type MenuItem } from '../../types/database';
 import { resolveImageUrl } from '../../lib/menuImages';
 import { Plus, Loader2, Image as ImageIcon, Search, Printer } from 'lucide-react';
+import CloudinaryImg from '../../components/CloudinaryImg';
 
 export default function MenuAdmin() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -26,6 +27,7 @@ export default function MenuAdmin() {
   const [isCatModalOpen, setIsCatModalOpen] = useState(false);
   const [editingCatId, setEditingCatId] = useState<string | null>(null);
   const [catFormData, setCatFormData] = useState({ name: '', imageUrl: '' });
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   const [categorySearch, setCategorySearch] = useState('');
   const [itemSearch, setItemSearch] = useState('');
@@ -128,6 +130,34 @@ export default function MenuAdmin() {
   const closeCatModal = () => {
     setIsCatModalOpen(false);
     setEditingCatId(null);
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploadingImage(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'ml_default');
+
+    try {
+      const response = await fetch('https://api.cloudinary.com/v1_1/diymsgmep/image/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+      if (data.public_id) {
+        setCatFormData(prev => ({ ...prev, imageUrl: data.public_id }));
+      } else {
+        throw new Error(data.error?.message || 'Upload failed');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Failed to upload image. Please try again.');
+    } finally {
+      setIsUploadingImage(false);
+    }
   };
 
   const handleCatSubmit = async (e: FormEvent) => {
@@ -235,14 +265,11 @@ export default function MenuAdmin() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {filteredCategories.map((cat, idx) => {
-            const previewUrl = cat.id
-              ? resolveImageUrl(cat.imageUrl)
-              : resolveImageUrl(cat.imageUrl);
             return (
             <div key={cat.id || `orphan-${idx}`} className="bg-black border border-white/10 rounded-sm overflow-hidden flex flex-col group relative">
-              {previewUrl ? (
+              {cat.imageUrl ? (
                 <div className="h-32 w-full relative">
-                  <img src={previewUrl} alt={cat.name} className="w-full h-full object-cover" />
+                  <CloudinaryImg publicId={cat.imageUrl} alt={cat.name} className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-black/50" />
                 </div>
               ) : (
@@ -438,15 +465,23 @@ export default function MenuAdmin() {
                 <input required type="text" value={catFormData.name} onChange={e => setCatFormData({...catFormData, name: e.target.value})} className="w-full bg-black border border-white/10 py-3 px-4 text-white text-sm rounded-sm focus:border-gold-500 outline-none" />
               </div>
               <div>
-                <label className="text-[10px] uppercase tracking-widest text-white/50 block mb-1">Image URL (Optional)</label>
+                <label className="text-[10px] uppercase tracking-widest text-white/50 block mb-1">Image (Upload)</label>
                 <input
-                  type="text"
-                  placeholder="/img/img-19.jpg or https://..."
-                  value={catFormData.imageUrl}
-                  onChange={e => setCatFormData({...catFormData, imageUrl: e.target.value})}
-                  className="w-full bg-black border border-white/10 py-3 px-4 text-white text-sm rounded-sm focus:border-gold-500 outline-none"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  disabled={isUploadingImage}
+                  className="w-full bg-black border border-white/10 py-2 px-3 text-white text-sm rounded-sm focus:border-gold-500 outline-none file:mr-4 file:py-2 file:px-4 file:rounded-sm file:border-0 file:text-[10px] file:uppercase file:tracking-widest file:font-bold file:bg-white/10 file:text-white hover:file:bg-white/20 transition-colors"
                 />
-                <p className="text-[10px] text-white/30 mt-1">Use a path like /img/... or a full https:// URL</p>
+                {isUploadingImage && <p className="text-[10px] text-gold-500 mt-2 flex items-center gap-2"><Loader2 className="w-3 h-3 animate-spin" /> Uploading...</p>}
+                {catFormData.imageUrl && !isUploadingImage && (
+                  <div className="mt-4">
+                    <p className="text-[10px] text-white/30 mb-2">Current Image Preview:</p>
+                    <div className="w-32 h-24 rounded-sm overflow-hidden border border-white/10">
+                      <CloudinaryImg publicId={catFormData.imageUrl} className="w-full h-full object-cover" />
+                    </div>
+                  </div>
+                )}
               </div>
               
               <div className="pt-4 flex gap-4">

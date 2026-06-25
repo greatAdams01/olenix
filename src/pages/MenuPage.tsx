@@ -9,6 +9,7 @@ import { supabase } from '../lib/supabase';
 import { listMenuCategories, listMenuItems } from '../lib/menuApi';
 import { resolveImageUrl } from '../lib/menuImages';
 import { mapCategory, mapMenuItem, type MenuCategory, type MenuItem } from '../types/database';
+import CloudinaryImg from '../components/CloudinaryImg';
 
 export default function MenuPage() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -54,7 +55,7 @@ export default function MenuPage() {
   let fullMenu = categories.map((cat) => ({
     id: cat.id,
     category: cat.name,
-    imageUrl: resolveImageUrl(cat.imageUrl),
+    imageUrl: cat.imageUrl,
     items: menuItems.filter((item) => item.category === cat.name),
   }));
 
@@ -159,7 +160,7 @@ export default function MenuPage() {
                   <div className="md:w-1/3 flex flex-col gap-6">
                     {section.imageUrl && (
                       <div className="w-full aspect-[4/3] rounded-sm overflow-hidden relative">
-                        <img src={section.imageUrl} alt={section.category} className="w-full h-full object-cover" />
+                        <CloudinaryImg publicId={section.imageUrl} alt={section.category} className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-black/20" />
                       </div>
                     )}
