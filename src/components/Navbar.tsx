@@ -1,18 +1,22 @@
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
+  const location = useLocation();
+  const isMenuPage = location.pathname === '/menu';
+
   const navLinks = [
-    { name: 'About', href: '#about' },
-    { name: 'Experience', href: '#features' },
-    { name: 'Entertainment', href: '#entertainment' },
-    { name: 'Menu', href: '#menu' },
-    { name: 'Gallery', href: '#gallery' },
-    { name: 'Reservations', href: '#reservations' },
-    { name: 'FAQ', href: '#faq' },
+    { name: 'About', href: '/#about' },
+    { name: 'Experience', href: '/#features' },
+    { name: 'Entertainment', href: '/#entertainment' },
+    { name: 'Menu', href: '/menu' },
+    { name: 'Gallery', href: '/#gallery' },
+    { name: 'Reservations', href: '/#reservations' },
+    { name: 'FAQ', href: '/#faq' },
   ];
 
   return (
@@ -20,21 +24,21 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <div className="flex-shrink-0 flex flex-col">
-            <a href="#" className="font-serif text-2xl font-bold tracking-widest text-gold-500 uppercase leading-none">
+            <Link to="/" className="font-serif text-2xl font-bold tracking-widest text-gold-500 uppercase leading-none">
               <span>OLENIX</span>
-            </a>
+            </Link>
            <span className="text-[10px] tracking-[0.3em] text-gold-400/80 uppercase mt-1">Xclusive Lounge</span>
           </div>
           <div className="hidden md:block">
             <div className="flex items-baseline gap-8">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
+                  to={link.href}
                   className="text-gold-400/70 hover:text-gold-400 text-[11px] uppercase tracking-widest transition-colors"
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -71,14 +75,14 @@ export default function Navbar() {
           >
             <div className="px-4 pt-2 pb-6 space-y-2 sm:px-3">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
+                  to={link.href}
                   onClick={() => setIsOpen(false)}
                   className="text-gold-400 hover:text-gold-400 block px-3 py-3 text-base uppercase tracking-widest font-medium transition-colors"
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
               <button 
                 onClick={() => {

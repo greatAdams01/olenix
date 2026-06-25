@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import PublicPage from './pages/PublicPage';
+import MenuPage from './pages/MenuPage';
 import { AuthProvider } from './contexts/AuthContext';
 
 // Admin Pages
@@ -17,6 +18,7 @@ export default function App() {
         <Routes>
           {/* Public Website */}
           <Route path="/" element={<PublicPage />} />
+          <Route path="/menu" element={<MenuPage />} />
           
           {/* Admin Login */}
           <Route path="/admin/login" element={<Login />} />
