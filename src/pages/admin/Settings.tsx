@@ -44,14 +44,14 @@ export default function Settings() {
   return (
     <div className="max-w-xl">
       <div className="mb-8">
-        <h2 className="text-2xl font-serif text-white mb-1">Account Settings</h2>
-        <p className="text-xs text-white/50 tracking-widest uppercase">Update your security credentials</p>
+        <h2 className="text-2xl font-serif text-stone-900 mb-1">Account Settings</h2>
+        <p className="text-xs text-stone-500 tracking-widest uppercase">Update your security credentials</p>
       </div>
 
-      <div className="bg-black border border-white/10 p-6 md:p-8 rounded-sm shadow-[0_0_50px_rgba(212,175,55,0.02)]">
-        <div className="flex items-center gap-3 mb-6 pb-6 border-b border-white/10">
-          <KeyRound className="w-5 h-5 text-gold-500" />
-          <h3 className="text-sm font-bold uppercase tracking-widest text-white">Change Password</h3>
+      <div className="bg-stone-50 border border-stone-200 p-6 md:p-8 rounded-sm shadow-[0_0_50px_rgba(212,175,55,0.02)]">
+        <div className="flex items-center gap-3 mb-6 pb-6 border-b border-stone-200">
+          <KeyRound className="w-5 h-5 text-amber-600" />
+          <h3 className="text-sm font-bold uppercase tracking-widest text-stone-900">Change Password</h3>
         </div>
 
         {status && (
@@ -67,25 +67,25 @@ export default function Settings() {
 
         <form onSubmit={handleUpdatePassword} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-[10px] uppercase tracking-widest text-white/50 font-semibold ml-1">New Password</label>
+            <label className="text-[10px] uppercase tracking-widest text-stone-500 font-semibold ml-1">New Password</label>
             <input
               type="password"
               required
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full bg-zinc-950 border border-white/10 py-3 px-4 text-white placeholder:text-white/20 focus:border-gold-500 outline-none rounded-sm"
+              className="w-full bg-white border border-stone-200 py-3 px-4 text-stone-900 placeholder:text-stone-900/20 focus:border-gold-500 outline-none rounded-sm"
               placeholder="••••••••"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] uppercase tracking-widest text-white/50 font-semibold ml-1">Confirm New Password</label>
+            <label className="text-[10px] uppercase tracking-widest text-stone-500 font-semibold ml-1">Confirm New Password</label>
             <input
               type="password"
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full bg-zinc-950 border border-white/10 py-3 px-4 text-white placeholder:text-white/20 focus:border-gold-500 outline-none rounded-sm"
+              className="w-full bg-white border border-stone-200 py-3 px-4 text-stone-900 placeholder:text-stone-900/20 focus:border-gold-500 outline-none rounded-sm"
               placeholder="••••••••"
             />
           </div>
@@ -94,7 +94,7 @@ export default function Settings() {
             <button
               type="submit"
               disabled={loading}
-              className="px-8 py-3 bg-gold-500 text-black text-xs font-bold uppercase tracking-widest hover:bg-gold-400 transition-colors rounded-sm flex items-center gap-2 disabled:opacity-50"
+              className="px-8 py-3 bg-amber-600 text-black text-xs font-bold uppercase tracking-widest hover:bg-gold-400 transition-colors rounded-sm flex items-center gap-2 disabled:opacity-50"
             >
               {loading && <Loader2 className="w-4 h-4 animate-spin" />}
               Update Password

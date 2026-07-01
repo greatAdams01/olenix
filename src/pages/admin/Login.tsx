@@ -44,11 +44,11 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-zinc-950 border border-white/10 p-8 rounded-sm shadow-[0_0_50px_rgba(212,175,55,0.05)]">
+    <div className="min-h-screen bg-stone-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-md bg-white border border-stone-200 p-8 rounded-sm shadow-[0_0_50px_rgba(212,175,55,0.05)]">
         <div className="text-center mb-8">
-          <h1 className="font-serif text-3xl text-gold-500 uppercase tracking-widest mb-2">Admin Portal</h1>
-          <p className="text-xs text-white/50 tracking-widest uppercase">Olenix Xclusive Lounge</p>
+          <h1 className="font-serif text-3xl text-amber-600 uppercase tracking-widest mb-2">Admin Portal</h1>
+          <p className="text-xs text-stone-500 tracking-widest uppercase">Olenix Xclusive Lounge</p>
         </div>
 
         {error && (
@@ -60,30 +60,30 @@ export default function Login() {
 
         <form onSubmit={handleLogin} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-[10px] uppercase tracking-widest text-white/50 font-semibold ml-1">Email Address</label>
+            <label className="text-[10px] uppercase tracking-widest text-stone-500 font-semibold ml-1">Email Address</label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-white/30 absolute left-4 top-1/2 -translate-y-1/2" />
+              <Mail className="w-4 h-4 text-stone-400 absolute left-4 top-1/2 -translate-y-1/2" />
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-black border border-white/10 py-3 pl-12 pr-4 text-white placeholder:text-white/20 focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm"
+                className="w-full bg-stone-50 border border-stone-200 py-3 pl-12 pr-4 text-stone-900 placeholder:text-stone-900/20 focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm"
                 placeholder="admin@olenixlounge.com"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] uppercase tracking-widest text-white/50 font-semibold ml-1">Password</label>
+            <label className="text-[10px] uppercase tracking-widest text-stone-500 font-semibold ml-1">Password</label>
             <div className="relative">
-              <Lock className="w-4 h-4 text-white/30 absolute left-4 top-1/2 -translate-y-1/2" />
+              <Lock className="w-4 h-4 text-stone-400 absolute left-4 top-1/2 -translate-y-1/2" />
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-black border border-white/10 py-3 pl-12 pr-4 text-white placeholder:text-white/20 focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm"
+                className="w-full bg-stone-50 border border-stone-200 py-3 pl-12 pr-4 text-stone-900 placeholder:text-stone-900/20 focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm"
                 placeholder="••••••••"
               />
             </div>
@@ -92,7 +92,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-gold-500 text-black py-4 text-sm font-bold uppercase tracking-widest hover:bg-gold-400 transition-colors rounded-sm flex justify-center items-center gap-2 disabled:opacity-50"
+            className="w-full bg-amber-600 text-black py-4 text-sm font-bold uppercase tracking-widest hover:bg-gold-400 transition-colors rounded-sm flex justify-center items-center gap-2 disabled:opacity-50"
           >
             {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Sign In'}
           </button>

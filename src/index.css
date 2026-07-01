@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lexend:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
 @import "tailwindcss";
 
 #about,
@@ -7,15 +7,216 @@
 #menu,
 #gallery,
 #reservations,
-#faq {
-  scroll-margin-top: 5rem;
+#faq,
+#location {
+  scroll-margin-top: 7rem;
+}
+
+.container-editorial {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .container-editorial {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
 }
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Lexend", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
   --color-gold-300: #F3E5AB;
   --color-gold-400: #E5C158;
   --color-gold-500: #D4AF37;
-  --color-gold-600: #AA8C2C;
+  --color-gold-600: #B8942E;
+  --color-cream-50: #FFFBF7;
+  --color-cream-100: #FFF6EB;
+  --color-champagne: #F8EDD9;
+  --color-warm-900: #2A2218;
+  --color-warm-700: #5C4F3D;
+  --color-warm-500: #8A7B68;
+  --color-amber-glow: #F59E0B;
+  --color-lounge-950: #0F0C09;
+  --color-lounge-900: #1A1510;
+  --color-lounge-800: #241E17;
+  --color-lounge-700: #2E2720;
+}
+
+body {
+  background-color: var(--color-cream-50);
+  color: var(--color-warm-900);
+}
+
+::selection {
+  background-color: rgb(212 175 55 / 0.35);
+  color: var(--color-warm-900);
+}
+
+/* ── Light sections ── */
+.section-light {
+  background-color: var(--color-cream-50);
+  color: var(--color-warm-900);
+}
+
+.section-warm {
+  background: linear-gradient(180deg, var(--color-cream-100) 0%, var(--color-champagne) 100%);
+  color: var(--color-warm-900);
+}
+
+/* ── Dark lounge sections ── */
+.section-dark {
+  background: linear-gradient(
+    165deg,
+    var(--color-lounge-950) 0%,
+    var(--color-lounge-900) 45%,
+    var(--color-lounge-800) 100%
+  );
+  color: var(--color-cream-50);
+}
+
+.section-dark .section-title {
+  color: var(--color-cream-50);
+}
+
+.section-dark .section-body {
+  color: rgb(255 251 247 / 0.72);
+}
+
+.section-dark .section-eyebrow {
+  color: var(--color-gold-400);
+}
+
+.section-dark .border-warm {
+  border-color: rgb(212 175 55 / 0.2);
+}
+
+.lounge-glow {
+  background: radial-gradient(ellipse 70% 55% at 50% 0%, rgb(245 158 11 / 0.14), transparent 65%);
+}
+
+.lounge-glow-dark {
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgb(212 175 55 / 0.08), transparent 70%);
+}
+
+.lounge-card {
+  background: #ffffff;
+  border: 1px solid rgb(212 175 55 / 0.18);
+  box-shadow: 0 8px 32px rgb(42 34 24 / 0.06);
+}
+
+.lounge-card:hover {
+  border-color: rgb(212 175 55 / 0.45);
+  box-shadow: 0 12px 40px rgb(212 175 55 / 0.12);
+}
+
+.lounge-card-dark {
+  background: rgb(255 255 255 / 0.04);
+  border: 1px solid rgb(212 175 55 / 0.15);
+}
+
+.section-eyebrow {
+  font-size: 0.625rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--color-gold-600);
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  color: var(--color-warm-900);
+  letter-spacing: 0.02em;
+}
+
+.section-body {
+  color: var(--color-warm-700);
+}
+
+.gold-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(212 175 55 / 0.75), transparent);
+}
+
+.gold-line-dark {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(212 175 55 / 0.5), transparent);
+}
+
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, var(--color-gold-500), var(--color-gold-600));
+  color: #1a1408;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  box-shadow: 0 4px 20px rgb(212 175 55 / 0.35);
+}
+
+.btn-gold:hover {
+  box-shadow: 0 6px 28px rgb(212 175 55 / 0.5);
+  transform: translateY(-1px);
+}
+
+.btn-outline-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  border: 1.5px solid var(--color-gold-500);
+  color: var(--color-gold-600);
+  background: rgb(255 255 255 / 0.6);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.btn-outline-gold:hover {
+  background: rgb(212 175 55 / 0.1);
+  border-color: var(--color-gold-600);
+  color: #9a7b1a;
+}
+
+.btn-outline-light {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  border: 1.5px solid rgb(212 175 55 / 0.55);
+  color: var(--color-gold-300);
+  background: transparent;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.btn-outline-light:hover {
+  background: rgb(212 175 55 / 0.12);
+  border-color: var(--color-gold-400);
+  color: var(--color-gold-300);
+}
+
+.section-alt {
+  background: linear-gradient(180deg, var(--color-cream-100) 0%, var(--color-champagne) 100%);
+}
+
+.border-warm {
+  border-color: rgb(212 175 55 / 0.15);
+}
+
+.border-warm-dark {
+  border-color: rgb(212 175 55 / 0.2);
 }

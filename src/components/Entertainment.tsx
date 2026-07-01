@@ -3,61 +3,64 @@ import { motion, AnimatePresence } from 'motion/react';
 
 const lineup = [
   { name: 'Movie Night', day: 'Mondays', img: '/img/img-1.jpg' },
-  { name: 'Ladies\' Night', day: 'Wednesdays', img: '/img/img-2.jpg' },
+  { name: "Ladies' Night", day: 'Wednesdays', img: '/img/img-2.jpg' },
   { name: 'Karaoke Night', day: 'Thursdays', img: '/img/img-3.jpg' },
-  { name: 'Music and Vibes', day: 'Fridays', img: '/img/img-4.jpg' },
+  { name: 'Music & Vibes', day: 'Fridays', img: '/img/img-4.jpg' },
   { name: 'Comedy Night', day: 'Saturdays', img: '/img/img-5.jpg' },
-  { name: 'Exotic Lifeband', day: 'Sundays', img: '/img/img-6.jpg' },
+  { name: 'Exotic Live Band', day: 'Sundays', img: '/img/img-6.jpg' },
 ];
 
 export default function Entertainment() {
-  const [activeImg, setActiveImg] = useState(lineup[0].img);
+  const [active, setActive] = useState(0);
 
   return (
-    <section id="entertainment" className="py-24 bg-zinc-950 bg-gradient-to-tl from-gold-500/20 via-zinc-950 to-white/5 px-4 border-t border-white/10">
-      <div className="max-w-[1280px] mx-auto md:px-12">
-        <motion.div
-           initial={{ opacity: 0, y: 20 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           transition={{ duration: 0.6 }}
-           className="flex flex-col sm:flex-row sm:justify-between sm:items-end mb-12 gap-4"
-        >
-          <h2 className="text-3xl md:text-5xl font-serif text-gold-400">Weekly Lineup</h2>
-          <span className="text-xs uppercase tracking-[0.4em] font-semibold text-gold-400/40">Curated Vibes</span>
-        </motion.div>
-
-        <div className="flex flex-col lg:flex-row gap-12 mt-12">
-          <div className="w-full lg:w-1/2">
-            <ul className="space-y-0 border-t border-white/10">
+    <section id="entertainment" className="border-t border-warm-dark section-dark">
+      <div className="grid lg:grid-cols-2">
+        <div className="relative px-6 sm:px-10 lg:px-16 xl:px-20 py-16 md:py-24 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-warm-dark">
+          <div className="absolute inset-0 lounge-glow-dark pointer-events-none" />
+          <div className="relative">
+            <p className="section-eyebrow mb-4">Weekly lineup</p>
+            <h2 className="section-title text-3xl md:text-5xl mb-10 leading-tight text-cream-50">
+              Nights at
+              <br />
+              Olenix
+            </h2>
+            <ul className="space-y-0">
               {lineup.map((event, index) => (
-                 <motion.li
-                   key={index}
-                   onMouseEnter={() => setActiveImg(event.img)}
-                   initial={{ opacity: 0, x: -20 }}
-                   whileInView={{ opacity: 1, x: 0 }}
-                   viewport={{ once: true }}
-                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                   className="flex justify-between items-center group cursor-pointer py-6 border-b border-white/10"
-                 >
-                   <span className="text-xl md:text-3xl font-serif text-white group-hover:text-gold-400 group-hover:italic transition-all">{event.name}</span>
-                   <span className="text-[10px] md:text-xs tracking-[0.2em] font-mono text-white/60 uppercase group-hover:text-white">{event.day}</span>
-                 </motion.li>
+                <li key={event.name}>
+                  <button
+                    type="button"
+                    onMouseEnter={() => setActive(index)}
+                    onFocus={() => setActive(index)}
+                    className={`w-full flex justify-between items-baseline gap-4 py-4 border-t border-gold-500/20 text-left transition-colors ${
+                      active === index ? 'text-gold-400' : 'text-cream-50/90 hover:text-gold-400'
+                    }`}
+                  >
+                    <span className="font-serif text-lg md:text-2xl">{event.name}</span>
+                    <span className="text-[10px] tracking-[0.2em] uppercase text-cream-50/45 shrink-0">{event.day}</span>
+                  </button>
+                </li>
               ))}
             </ul>
           </div>
-          <div className="w-full lg:w-1/2 relative h-[400px] lg:h-[600px] overflow-hidden border border-white/10">
-             <AnimatePresence mode="wait">
-               <motion.img 
-                  key={activeImg}
-                  src={activeImg}
-                  initial={{ opacity: 0, scale: 1.05 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="absolute inset-0 w-full h-full object-cover grayscale opacity-80 mix-blend-luminosity"
-               />
-             </AnimatePresence>
+        </div>
+
+        <div className="relative min-h-[400px] lg:min-h-full overflow-hidden">
+          <AnimatePresence mode="wait">
+            <motion.img
+              key={lineup[active].img}
+              src={lineup[active].img}
+              alt={lineup[active].name}
+              initial={{ opacity: 0, scale: 1.04 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.45 }}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </AnimatePresence>
+          <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-lounge-950/90 to-transparent">
+            <p className="text-cream-50 text-sm font-serif italic">{lineup[active].name}</p>
+            <p className="text-cream-50/60 text-[10px] uppercase tracking-widest mt-1">{lineup[active].day}</p>
           </div>
         </div>
       </div>

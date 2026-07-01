@@ -3,87 +3,59 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown } from 'lucide-react';
 
 const faqs = [
+  { question: 'What are your hours?', answer: 'We are open 24 hours, 365 days a year.' },
+  { question: 'Do you accept reservations?', answer: 'Yes — book via WhatsApp, phone, or our VIP booking form.' },
+  { question: 'Do you host private events?', answer: 'Yes. Contact us for private events and group bookings.' },
+  { question: 'Is there a VIP section?', answer: 'Yes. VIP sections can be reserved through our booking process.' },
+  { question: 'Do you offer outdoor seating?', answer: 'Yes, including elegant outdoor areas for a relaxed experience.' },
   {
-    question: "What are your dining hours?",
-    answer: "We are open 24 hours."
+    question: 'What events do you host?',
+    answer: 'Live band nights, comedy, karaoke, ladies night, movie night, and music & vibes every week.',
   },
-  {
-    question: "Do you accept reservations?",
-    answer: "Yes, we do. You can book via WhatsApp, phone call, or our authorized partners."
-  },
-  {
-    question: "Do you host private events?",
-    answer: "Yes, we accommodate private events. Please refer to our Event Booking Process for more details."
-  },
-  {
-    question: "Is there a VIP section?",
-    answer: "Yes, we have exclusive VIP sections that can be reserved through our VIP Booking Process."
-  },
-  {
-    question: "Do you offer outdoor seating?",
-    answer: "Yes, we offer elegant outdoor seating areas for a relaxed dining experience."
-  },
-  {
-    question: "What kind of music/events do you host?",
-    answer: "We host a variety of events including Premium Live band, Vibes and comedy night, music and vibes night, karaoke night, ladies night, and movie night."
-  }
 ];
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const toggleFaq = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
   return (
-    <section id="faq" className="py-24 bg-zinc-950 px-4 border-t border-white/10">
-      <div className="max-w-4xl mx-auto">
-        <motion.div
-           initial={{ opacity: 0, y: 20 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           transition={{ duration: 0.6 }}
-           className="mb-16"
-        >
-          <h2 className="text-3xl md:text-5xl font-serif mb-4">FAQ</h2>
-          <div className="w-16 h-[1px] bg-white/30" />
-        </motion.div>
+    <section id="faq" className="border-t border-warm section-warm">
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 px-6 sm:px-10 lg:px-16 py-16 md:py-24">
+        <div className="lg:col-span-4">
+          <p className="section-eyebrow mb-3">Good to know</p>
+          <h2 className="section-title text-3xl md:text-4xl leading-tight">Questions &amp; answers</h2>
+        </div>
 
-        <div className="border-t border-white/10">
+        <div className="lg:col-span-8 border-t border-gold-500/20 bg-cream-50/60 rounded-sm px-2">
           {faqs.map((faq, index) => (
-             <motion.div
-               initial={{ opacity: 0, y: 10 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true }}
-               transition={{ duration: 0.4, delay: index * 0.1 }}
-               key={index} 
-               className="border-b border-white/10 overflow-hidden"
-             >
-               <button
-                 onClick={() => toggleFaq(index)}
-                 className="w-full py-6 text-left flex justify-between items-center focus:outline-none group transition-colors"
-               >
-                 <span className="font-serif text-lg md:text-xl text-white group-hover:text-gold-400 group-hover:italic pr-8 transition-all">{faq.question}</span>
-                 <ChevronDown 
-                   className={`w-5 h-5 text-gold-400/40 transition-transform duration-300 flex-shrink-0 ${openIndex === index ? 'rotate-180' : ''}`} 
-                 />
-               </button>
-               <AnimatePresence>
-                 {openIndex === index && (
-                   <motion.div
-                     initial={{ height: 0, opacity: 0 }}
-                     animate={{ height: 'auto', opacity: 1 }}
-                     exit={{ height: 0, opacity: 0 }}
-                     transition={{ duration: 0.3 }}
-                   >
-                     <div className="pb-8 text-white/70 font-light leading-relaxed max-w-2xl">
-                       {faq.answer}
-                     </div>
-                   </motion.div>
-                 )}
-               </AnimatePresence>
-             </motion.div>
+            <div key={faq.question} className="border-b border-gold-500/15 last:border-0">
+              <button
+                type="button"
+                onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                className="w-full py-5 px-4 text-left flex justify-between items-start gap-4 group"
+              >
+                <span className="font-serif text-base md:text-lg text-warm-900 group-hover:text-gold-600 transition-colors">
+                  {faq.question}
+                </span>
+                <ChevronDown
+                  className={`w-4 h-4 text-gold-600 shrink-0 mt-1 transition-transform duration-300 ${
+                    openIndex === index ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+              <AnimatePresence>
+                {openIndex === index && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                    className="overflow-hidden"
+                  >
+                    <p className="px-4 pb-5 text-sm section-body font-light leading-relaxed max-w-2xl">{faq.answer}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           ))}
         </div>
       </div>

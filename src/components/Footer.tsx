@@ -1,16 +1,60 @@
-import { MapPin, Phone, Instagram, Facebook } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <footer className="bg-black text-white px-4 md:px-12 py-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 md:gap-0">
-      <div className="flex flex-col gap-1">
-        <span className="text-[9px] uppercase tracking-widest text-gold-400/40">Location</span>
-        <span className="text-[10px] font-light text-white/70">KM 47, Lekki-Epe Express Way, Oko-Ado, Lagos.</span>
-      </div>
-      <div className="flex flex-wrap md:flex-nowrap gap-4 md:gap-6">
-        <a href="https://www.instagram.com/olenixlounge?utm_source=qr" target="_blank" rel="noopener noreferrer" className="text-[9px] uppercase tracking-widest text-white/60 hover:text-white transition-colors">IG: @olenixlounge</a>
-        <a href="https://www.tiktok.com/@olenix_xclusivelounge?_r=1&_t=ZS-972zVKSYM1F" target="_blank" rel="noopener noreferrer" className="text-[9px] uppercase tracking-widest text-white/60 hover:text-white transition-colors">TikTok: @olenix_xclusivelounge</a>
-        <a href="https://www.facebook.com/profile.php?id=61587656250891&mibextid=rS40aB7S9Ucbxw6v" target="_blank" rel="noopener noreferrer" className="text-[9px] uppercase tracking-widest text-white/60 hover:text-white transition-colors">FB: Olenix Olenix</a>
+    <footer className="section-dark text-cream-50/80 border-t border-gold-500/20">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16 md:py-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+          <div>
+            <p className="font-serif text-2xl text-gold-400 tracking-widest uppercase mb-4">Olenix</p>
+            <p className="text-xs leading-relaxed text-cream-50/55 max-w-xs">
+              Xclusive Lounge — premium spirits, dining, and nightlife in Sangotedo, Lagos.
+            </p>
+          </div>
+
+          <div>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-gold-500 font-bold mb-4">Hours &amp; location</p>
+            <p className="text-xs leading-relaxed text-cream-50/60 mb-2">Open 24 hours · Every day</p>
+            <p className="text-xs leading-relaxed text-cream-50/60">
+              KM 47, Lekki-Epe Express Way
+              <br />
+              Oko-Ado, Lagos
+            </p>
+          </div>
+
+          <div>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-gold-500 font-bold mb-4">Explore</p>
+            <nav className="flex flex-col gap-2 text-xs uppercase tracking-widest">
+              <Link to="/menu" className="hover:text-gold-400 transition-colors w-fit">
+                Menu
+              </Link>
+              <a href="#reservations" className="hover:text-gold-400 transition-colors w-fit">
+                Reservations
+              </a>
+              <a href="#entertainment" className="hover:text-gold-400 transition-colors w-fit">
+                Weekly nights
+              </a>
+              <a href="#faq" className="hover:text-gold-400 transition-colors w-fit">
+                FAQ
+              </a>
+            </nav>
+            <div className="flex flex-wrap gap-4 mt-6 text-[10px] uppercase tracking-widest">
+              <a href="https://www.instagram.com/olenixlounge" target="_blank" rel="noopener noreferrer" className="hover:text-gold-400 transition-colors">
+                Instagram
+              </a>
+              <a href="https://www.tiktok.com/@olenix_xclusivelounge" target="_blank" rel="noopener noreferrer" className="hover:text-gold-400 transition-colors">
+                TikTok
+              </a>
+              <a href="https://www.facebook.com/profile.php?id=61587656250891" target="_blank" rel="noopener noreferrer" className="hover:text-gold-400 transition-colors">
+                Facebook
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <p className="mt-14 pt-8 border-t border-cream-50/10 text-[10px] text-cream-50/35 text-center md:text-left">
+          © {new Date().getFullYear()} Olenix Xclusive Lounge · Drink responsibly
+        </p>
       </div>
     </footer>
   );

@@ -1,82 +1,57 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-
-const slideImages = ['/img/img-39.jpg', '/img/img-23.jpg', '/img/img-43.jpg'];
+import { motion } from 'motion/react';
 
 export default function About() {
-  const [currentImgIndex, setCurrentImgIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentImgIndex((prev) => (prev + 1) % slideImages.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
-
   return (
-    <section id="about" className="py-24 md:py-32 bg-black bg-gradient-to-tl from-gold-500/20 via-black to-white/5 px-4 md:px-12 border-t border-white/10">
-      <div className="max-w-[1280px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col gap-12"
-          >
-            <div>
-              <h2 className="text-[10px] text-gold-500 uppercase tracking-[0.4em] font-semibold mb-6">Our Story</h2>
-              <p className="text-white/80 font-light leading-relaxed text-lg max-w-xl">
-                Nestled in the heart of Sangotedo, Lagos, Olenix Xclusive Lounge is a distinctive destination for friends, families, and professionals to relax, connect, and enjoy premium hospitality. We combine exquisite cuisine, refreshing beverages, exceptional service, and vibrant entertainment to create memorable experiences.
-              </p>
-            </div>
-            
-            <div className="pl-6 border-l w-max border-gold-500/30">
-              <h2 className="text-[10px] text-gold-500 uppercase tracking-[0.4em] font-semibold mb-4">Our Philosophy</h2>
-              <p className="text-2xl lg:text-3xl font-serif text-white italic">
-                "Fresh Flavours. Healthy Choices.<br/>Exceptional Experiences."
-              </p>
-            </div>
-          </motion.div>
+    <section id="about" className="border-t border-warm section-light">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 md:py-28">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="max-w-3xl"
+        >
+          <p className="section-eyebrow mb-5">Welcome</p>
+          <h2 className="section-title text-3xl sm:text-4xl md:text-5xl leading-tight mb-8">
+            Located in Sangotedo, Olenix is a lounge &amp; cocktail bar with premium spirits and robust culinary offerings.
+          </h2>
+          <p className="section-body text-base md:text-lg font-light leading-relaxed">
+            A distinctive destination for friends, families, and professionals to relax, connect, and enjoy exceptional
+            hospitality — from top-shelf bottles to live entertainment, every night of the week.
+          </p>
+        </motion.div>
+      </div>
 
-          <motion.div 
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-col gap-12"
-          >
-             <div className="relative h-[300px] sm:h-[400px] w-full border border-white/10 overflow-hidden group">
-               <AnimatePresence mode="wait">
-                 <motion.img 
-                   key={currentImgIndex}
-                   src={slideImages[currentImgIndex]} 
-                   alt="Lounge Story" 
-                   initial={{ opacity: 0 }}
-                   animate={{ opacity: 1 }}
-                   exit={{ opacity: 0 }}
-                   transition={{ duration: 1 }}
-                   className="absolute inset-0 w-full h-full object-cover grayscale opacity-80 mix-blend-luminosity group-hover:mix-blend-normal group-hover:grayscale-[0.2] group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" 
-                 />
-               </AnimatePresence>
-               <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-1000 z-10 pointer-events-none"></div>
-             </div>
-             
-             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div className="bg-zinc-950 p-10 border border-white/5 hover:border-gold-500/30 transition-colors shadow-[0_0_20px_rgba(212,175,55,0.02)]">
-                  <h3 className="text-xl font-serif text-gold-500 mb-6 uppercase tracking-widest">Mission</h3>
-                  <p className="text-white/80 text-lg leading-relaxed font-serif italic">
-                     To consistently deliver exceptional hospitality through quality Nigerian and international cuisine, outstanding service, a welcoming ambiance, and engaging entertainment.
-                  </p>
-                </div>
-                <div className="bg-zinc-950 p-10 border border-white/5 hover:border-gold-500/30 transition-colors shadow-[0_0_20px_rgba(212,175,55,0.02)]">
-                  <h3 className="text-xl font-serif text-gold-500 mb-6 uppercase tracking-widest">Vision</h3>
-                  <p className="text-white/80 text-lg leading-relaxed font-serif italic">
-                     To become Nigeria’s preferred destination for premium dining, relaxation, and entertainment by setting the standard for quality service, vibrant experiences, and lasting guest satisfaction.
-                  </p>
-                </div>
-             </div>
-          </motion.div>
+      <div className="grid lg:grid-cols-2 border-t border-warm">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="relative min-h-[320px] lg:min-h-[520px] overflow-hidden"
+        >
+          <img src="/img/img-39.jpg" alt="Olenix lounge atmosphere" className="absolute inset-0 w-full h-full object-cover" />
+        </motion.div>
+        <div className="section-dark relative flex flex-col justify-center px-6 sm:px-10 lg:px-16 xl:px-20 py-16 md:py-20 border-t lg:border-t-0 lg:border-l border-warm-dark">
+          <div className="absolute inset-0 lounge-glow-dark pointer-events-none" />
+          <div className="relative">
+            <p className="section-eyebrow mb-4">Philosophy</p>
+            <blockquote className="font-serif text-2xl md:text-3xl text-cream-50 italic leading-snug mb-10">
+              &ldquo;After the haste of the day — a place to relax, unwind, and celebrate.&rdquo;
+            </blockquote>
+            <div className="grid sm:grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-[10px] uppercase tracking-[0.25em] text-gold-400 font-bold mb-3">Mission</h3>
+                <p className="section-body text-sm leading-relaxed font-light">
+                  Deliver exceptional hospitality through quality cuisine, outstanding service, and engaging entertainment.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-[10px] uppercase tracking-[0.25em] text-gold-400 font-bold mb-3">Vision</h3>
+                <p className="section-body text-sm leading-relaxed font-light">
+                  Nigeria&apos;s preferred destination for premium dining, relaxation, and nightlife.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

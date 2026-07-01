@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import Navbar from '../components/Navbar';
+import QuickLinks from '../components/QuickLinks';
 import Hero from '../components/Hero';
 import About from '../components/About';
 import Features from '../components/Features';
@@ -17,9 +18,10 @@ export default function PublicPage() {
   useEffect(() => watchHashScroll(), []);
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans selection:bg-white/20">
+    <div className="min-h-screen bg-cream-50 text-warm-900 font-sans">
       <Navbar />
       <Hero />
+      <QuickLinks />
       <About />
       <Features />
       <Entertainment />

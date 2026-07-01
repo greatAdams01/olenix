@@ -1,57 +1,58 @@
 import { motion } from 'motion/react';
+import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-black overflow-hidden relative">
-      {/* Background Image with Overlay */}
-      <div 
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-60 grayscale mix-blend-luminosity"
-        style={{ backgroundImage: `url('/img/img-13.jpg')` }}
-      />
-      
-      {/* Gradient Overlay for better text readability */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-      <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/80 via-transparent to-transparent" />
-      
-      <div className="relative z-10 text-center px-4 max-w-5xl mx-auto pt-20">
+    <section className="relative min-h-[100svh] grid lg:grid-cols-2">
+      {/* Dark editorial copy */}
+      <div className="section-dark relative z-10 flex flex-col justify-end px-6 sm:px-10 lg:px-16 xl:px-20 pt-36 pb-12 lg:py-24 lg:min-h-[100svh] order-2 lg:order-1">
+        <div className="absolute inset-0 lounge-glow-dark pointer-events-none" />
         <motion.div
-           initial={{ opacity: 0, y: 30 }}
-           animate={{ opacity: 1, y: 0 }}
-           transition={{ duration: 0.8, ease: "easeOut" }}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className="relative max-w-xl"
         >
-          <p className="text-gold-400 uppercase tracking-[0.4em] text-xs md:text-sm mb-6 font-medium">Olenix Xclusive Lounge</p>
-          <h1 className="text-6xl md:text-7xl xl:text-[80px] font-serif text-gold-400 mb-8 leading-[0.85]">
-            Where luxury<br className="hidden md:block"/><span className="italic text-gold-500 md:ml-4">meets nightlife.</span>
+          <p className="section-eyebrow mb-6">Sangotedo, Lagos</p>
+          <h1 className="font-serif text-[2.75rem] sm:text-5xl lg:text-[3.25rem] xl:text-6xl text-cream-50 leading-[1.05] tracking-tight mb-8">
+            A Lagos
+            <br />
+            <span className="italic text-gold-400">cocktail bar</span>
+            <br />
+            &amp; lounge
           </h1>
-          <p className="text-lg text-white/80 font-light max-w-md mx-auto border-l-2 border-white/20 pl-6 text-left mb-12">
-            Step into an immersive experience where every detail is curated for the elite. 
+          <p className="section-body text-base md:text-lg font-light leading-relaxed mb-10 max-w-md">
+            Premium spirits, curated nights, and a place to unwind after the haste of the day — open every hour, every day.
           </p>
-          
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a 
-              href="#reservations"
-              className="w-full sm:w-auto px-8 py-4 bg-gold-500 text-black text-xs font-bold uppercase tracking-widest hover:bg-gold-400 transition-colors shadow-[0_0_15px_rgba(212,175,55,0.4)]"
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event('open-booking-modal'))}
+              className="btn-gold w-full sm:w-auto"
             >
-              Make a Reservation
-            </a>
-            <a 
-              href="#entertainment"
-              className="w-full sm:w-auto px-8 py-4 bg-transparent text-gold-400 border border-white/20 text-xs font-bold uppercase tracking-widest hover:bg-white/5 transition-colors"
-            >
-              Explore Events
-            </a>
+              Book a table
+            </button>
+            <Link to="/menu" className="btn-outline-light w-full sm:w-auto text-center">
+              View menu
+            </Link>
           </div>
         </motion.div>
       </div>
-      
-      <motion.div 
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 opacity-70"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-      >
-        <span className="block text-[10px] uppercase tracking-widest text-gold-400 mb-4 text-center">Scroll</span>
-        <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent mx-auto" />
-      </motion.div>
-    </div>
+
+      {/* Hero image */}
+      <div className="relative min-h-[45vh] lg:min-h-[100svh] order-1 lg:order-2 overflow-hidden">
+        <img
+          src="/img/img-43.jpg"
+          alt="Olenix Xclusive Lounge interior"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-l from-lounge-950/80 via-transparent to-transparent lg:from-lounge-950/50" />
+        <div className="absolute bottom-6 left-6 right-6 lg:left-auto lg:right-8 lg:bottom-12 lg:max-w-xs">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-cream-50/90 font-semibold drop-shadow-sm">
+            Open 24 hours · 365 days
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }

@@ -224,32 +224,32 @@ export default function StaffAdmin() {
     await fetchAdmins();
   };
 
-  if (loading) return <div className="text-white/50 animate-pulse">Loading staff...</div>;
+  if (loading) return <div className="text-stone-500 animate-pulse">Loading staff...</div>;
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-4">
         <div>
-          <h2 className="text-2xl font-serif text-white mb-1">Staff</h2>
-          <p className="text-xs text-white/50 tracking-widest uppercase">Add or remove team members who can manage the lounge</p>
+          <h2 className="text-2xl font-serif text-stone-900 mb-1">Staff</h2>
+          <p className="text-xs text-stone-500 tracking-widest uppercase">Add or remove team members who can manage the lounge</p>
         </div>
         <button
           onClick={() => openModal('new')}
-          className="flex items-center justify-center gap-2 px-6 py-3 bg-gold-500 text-black text-xs font-bold uppercase tracking-widest hover:bg-gold-400 transition-colors rounded-sm shrink-0"
+          className="flex items-center justify-center gap-2 px-6 py-3 bg-amber-600 text-black text-xs font-bold uppercase tracking-widest hover:bg-gold-400 transition-colors rounded-sm shrink-0"
         >
           <Plus className="w-4 h-4" /> Add staff member
         </button>
       </div>
 
-      <div className="bg-gold-500/5 border border-gold-500/20 rounded-sm p-5 space-y-3">
-        <h3 className="text-sm font-semibold text-gold-500">How to add a new team member (no technical steps)</h3>
-        <ol className="text-sm text-white/70 space-y-2 list-decimal list-inside">
-          <li>Click <strong className="text-white">Add staff member</strong></li>
-          <li>Enter their work email and choose a temporary password (or tap <strong className="text-white">Suggest password</strong>)</li>
-          <li>Click <strong className="text-white">Create staff</strong>, then copy the welcome message and send it to them (WhatsApp, email, etc.)</li>
-          <li>They sign in at <span className="text-gold-500 font-mono text-xs">{staffLoginUrl()}</span> and can change their password under Settings</li>
+      <div className="bg-amber-600/5 border border-gold-500/20 rounded-sm p-5 space-y-3">
+        <h3 className="text-sm font-semibold text-amber-600">How to add a new team member (no technical steps)</h3>
+        <ol className="text-sm text-stone-600 space-y-2 list-decimal list-inside">
+          <li>Click <strong className="text-stone-900">Add staff member</strong></li>
+          <li>Enter their work email and choose a temporary password (or tap <strong className="text-stone-900">Suggest password</strong>)</li>
+          <li>Click <strong className="text-stone-900">Create staff</strong>, then copy the welcome message and send it to them (WhatsApp, email, etc.)</li>
+          <li>They sign in at <span className="text-amber-600 font-mono text-xs">{staffLoginUrl()}</span> and can change their password under Settings</li>
         </ol>
-        <p className="text-xs text-white/40">
+        <p className="text-xs text-stone-900/40">
           One-time setup: in Supabase → Authentication → Providers → Email, turn off &quot;Confirm email&quot; so new staff can log in right away.
         </p>
       </div>
@@ -266,7 +266,7 @@ export default function StaffAdmin() {
             <CheckCircle2 className="w-5 h-5 text-green-400 shrink-0 mt-0.5" />
             <div className="flex-1 min-w-0">
               <p className="text-sm text-green-400 font-medium mb-2">Staff ready — send this to your team member:</p>
-              <pre className="text-xs text-white/80 whitespace-pre-wrap font-sans bg-black/40 p-4 rounded-sm border border-white/10">
+              <pre className="text-xs text-stone-700 whitespace-pre-wrap font-sans bg-stone-50/40 p-4 rounded-sm border border-stone-200">
                 {welcomeMessage}
               </pre>
             </div>
@@ -282,35 +282,35 @@ export default function StaffAdmin() {
         </div>
       )}
 
-      <div className="bg-black border border-white/10 rounded-sm overflow-x-auto">
+      <div className="bg-stone-50 border border-stone-200 rounded-sm overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-white/10 bg-white/5">
-              <th className="p-4 text-[10px] uppercase tracking-widest text-white/50 font-semibold">Name / Email</th>
-              <th className="p-4 text-[10px] uppercase tracking-widest text-white/50 font-semibold">Access level</th>
-              <th className="p-4 text-[10px] uppercase tracking-widest text-white/50 font-semibold text-right">Actions</th>
+            <tr className="border-b border-stone-200 bg-stone-100">
+              <th className="p-4 text-[10px] uppercase tracking-widest text-stone-500 font-semibold">Name / Email</th>
+              <th className="p-4 text-[10px] uppercase tracking-widest text-stone-500 font-semibold">Access level</th>
+              <th className="p-4 text-[10px] uppercase tracking-widest text-stone-500 font-semibold text-right">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-white/5">
             {admins.length === 0 ? (
               <tr>
-                <td colSpan={3} className="p-8 text-center text-white/40 text-sm">
+                <td colSpan={3} className="p-8 text-center text-stone-900/40 text-sm">
                   No staff yet. Click &quot;Add staff member&quot; to invite your first team member.
                 </td>
               </tr>
             ) : (
               admins.map((admin) => (
                 <tr key={admin.id} className="hover:bg-white/[0.02] transition-colors">
-                  <td className="p-4 text-sm text-white flex items-center gap-2">
-                    <Shield className={`w-4 h-4 shrink-0 ${admin.role === 'super_admin' ? 'text-gold-500' : 'text-white/30'}`} />
+                  <td className="p-4 text-sm text-stone-900 flex items-center gap-2">
+                    <Shield className={`w-4 h-4 shrink-0 ${admin.role === 'super_admin' ? 'text-amber-600' : 'text-stone-400'}`} />
                     {admin.email}
                   </td>
                   <td className="p-4">
                     <span
                       className={`inline-flex px-2 py-1 text-[10px] font-bold uppercase tracking-widest rounded-sm ${
                         admin.role === 'super_admin'
-                          ? 'bg-gold-500/10 text-gold-400 border border-gold-500/20'
-                          : 'bg-white/5 text-white/60 border border-white/10'
+                          ? 'bg-amber-600/10 text-amber-500 border border-gold-500/20'
+                          : 'bg-stone-100 text-stone-500 border border-stone-200'
                       }`}
                     >
                       {admin.role === 'super_admin' ? 'Owner' : 'Staff'}
@@ -334,23 +334,23 @@ export default function StaffAdmin() {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-zinc-950 border border-white/10 p-6 md:p-8 w-full max-w-md rounded-sm relative my-8">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-50/80 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-white border border-stone-200 p-6 md:p-8 w-full max-w-md rounded-sm relative my-8">
             <button
               onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 p-2 text-white/40 hover:text-white transition-colors"
+              className="absolute top-4 right-4 p-2 text-stone-900/40 hover:text-stone-900 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="text-xl font-serif text-gold-500 mb-4">Add staff member</h3>
+            <h3 className="text-xl font-serif text-amber-600 mb-4">Add staff member</h3>
 
-            <div className="flex gap-2 mb-6 p-1 bg-black rounded-sm border border-white/10">
+            <div className="flex gap-2 mb-6 p-1 bg-stone-50 rounded-sm border border-stone-200">
               <button
                 type="button"
                 onClick={() => { setMode('new'); setError(''); }}
                 className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[10px] font-bold uppercase tracking-widest rounded-sm transition-colors ${
-                  mode === 'new' ? 'bg-gold-500 text-black' : 'text-white/50 hover:text-white'
+                  mode === 'new' ? 'bg-amber-600 text-black' : 'text-stone-500 hover:text-stone-900'
                 }`}
               >
                 <UserPlus className="w-3.5 h-3.5" />
@@ -360,7 +360,7 @@ export default function StaffAdmin() {
                 type="button"
                 onClick={() => { setMode('existing'); setError(''); }}
                 className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[10px] font-bold uppercase tracking-widest rounded-sm transition-colors ${
-                  mode === 'existing' ? 'bg-gold-500 text-black' : 'text-white/50 hover:text-white'
+                  mode === 'existing' ? 'bg-amber-600 text-black' : 'text-stone-500 hover:text-stone-900'
                 }`}
               >
                 <Link2 className="w-3.5 h-3.5" />
@@ -369,11 +369,11 @@ export default function StaffAdmin() {
             </div>
 
             {mode === 'new' ? (
-              <p className="text-xs text-white/50 mb-6">
+              <p className="text-xs text-stone-500 mb-6">
                 Creates a new login for someone who has never signed in before.
               </p>
             ) : (
-              <p className="text-xs text-white/50 mb-6">
+              <p className="text-xs text-stone-500 mb-6">
                 Grants admin access to someone who already has an account (same email they use to sign in).
               </p>
             )}
@@ -386,13 +386,13 @@ export default function StaffAdmin() {
 
             <form onSubmit={mode === 'new' ? handleAddNewStaff : handleLinkExisting} className="space-y-4">
               <div>
-                <label className="text-[10px] uppercase tracking-widest text-white/50 block mb-1">Work email</label>
+                <label className="text-[10px] uppercase tracking-widest text-stone-500 block mb-1">Work email</label>
                 <input
                   required
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full bg-black border border-white/10 py-3 px-4 text-white text-sm rounded-sm focus:border-gold-500 outline-none"
+                  className="w-full bg-stone-50 border border-stone-200 py-3 px-4 text-stone-900 text-sm rounded-sm focus:border-gold-500 outline-none"
                   placeholder="manager@olenixlounge.com"
                 />
               </div>
@@ -401,14 +401,14 @@ export default function StaffAdmin() {
                 <>
                   <div>
                     <div className="flex justify-between items-center mb-1">
-                      <label className="text-[10px] uppercase tracking-widest text-white/50">Temporary password</label>
+                      <label className="text-[10px] uppercase tracking-widest text-stone-500">Temporary password</label>
                       <button
                         type="button"
                         onClick={() => {
                           const pwd = generateStaffPassword();
                           setFormData({ ...formData, password: pwd, confirmPassword: pwd });
                         }}
-                        className="text-[10px] uppercase tracking-widest text-gold-500 hover:text-gold-400"
+                        className="text-[10px] uppercase tracking-widest text-amber-600 hover:text-amber-500"
                       >
                         Suggest password
                       </button>
@@ -420,19 +420,19 @@ export default function StaffAdmin() {
                       autoComplete="new-password"
                       value={formData.password}
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                      className="w-full bg-black border border-white/10 py-3 px-4 text-white text-sm rounded-sm focus:border-gold-500 outline-none font-mono"
+                      className="w-full bg-stone-50 border border-stone-200 py-3 px-4 text-stone-900 text-sm rounded-sm focus:border-gold-500 outline-none font-mono"
                       placeholder="At least 6 characters"
                     />
                   </div>
                   <div>
-                    <label className="text-[10px] uppercase tracking-widest text-white/50 block mb-1">Confirm password</label>
+                    <label className="text-[10px] uppercase tracking-widest text-stone-500 block mb-1">Confirm password</label>
                     <input
                       required
                       type="text"
                       minLength={6}
                       value={formData.confirmPassword}
                       onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                      className="w-full bg-black border border-white/10 py-3 px-4 text-white text-sm rounded-sm focus:border-gold-500 outline-none font-mono"
+                      className="w-full bg-stone-50 border border-stone-200 py-3 px-4 text-stone-900 text-sm rounded-sm focus:border-gold-500 outline-none font-mono"
                     />
                   </div>
                 </>
@@ -442,14 +442,14 @@ export default function StaffAdmin() {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="flex-1 py-4 text-xs uppercase tracking-widest border border-white/10 hover:bg-white/5 text-white/60 transition-colors rounded-sm"
+                  className="flex-1 py-4 text-xs uppercase tracking-widest border border-stone-200 hover:bg-stone-100 text-stone-500 transition-colors rounded-sm"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-1 py-4 text-xs uppercase tracking-widest bg-gold-500 hover:bg-gold-400 text-black font-bold flex items-center justify-center gap-2 transition-colors rounded-sm disabled:opacity-50"
+                  className="flex-1 py-4 text-xs uppercase tracking-widest bg-amber-600 hover:bg-gold-400 text-black font-bold flex items-center justify-center gap-2 transition-colors rounded-sm disabled:opacity-50"
                 >
                   {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
                   {mode === 'new' ? 'Create staff' : 'Grant access'}

@@ -150,21 +150,21 @@ Please let me know how to proceed with the deposit payment.`;
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsOpen(false)}
-            className="absolute inset-0 bg-black/90 backdrop-blur-md"
+            className="absolute inset-0 bg-black/85 backdrop-blur-md"
           />
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-2xl bg-zinc-950/80 backdrop-blur-xl border border-gold-500/20 shadow-[0_0_50px_rgba(212,175,55,0.1)] overflow-hidden rounded-sm"
+            className="relative w-full max-w-2xl section-dark border border-gold-500/30 shadow-[0_0_60px_rgba(212,175,55,0.12)] overflow-hidden rounded-sm"
           >
             {/* Top decorative gradient */}
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold-500 to-transparent opacity-50" />
             
-            <div className="p-6 md:p-10 max-h-[90vh] overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gold-500/20 [&::-webkit-scrollbar-thumb]:rounded-full">
+            <div className="p-6 md:p-10 max-h-[90vh] overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gold-500/30 [&::-webkit-scrollbar-thumb]:rounded-full">
               <button 
                 onClick={() => setIsOpen(false)}
-                className="absolute top-4 right-4 md:top-6 md:right-6 text-gold-400/50 hover:text-gold-400 transition-colors bg-white/5 p-2 rounded-full hover:bg-white/10"
+                className="absolute top-4 right-4 md:top-6 md:right-6 text-cream-50/50 hover:text-gold-400 transition-colors bg-lounge-800/80 p-2 rounded-full hover:bg-gold-500/10"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -175,7 +175,7 @@ Please let me know how to proceed with the deposit payment.`;
                     VIP Reservation
                   </span>
                 </h2>
-                <p className="text-white/60 text-[10px] md:text-xs tracking-[0.3em] uppercase font-light">Secure your premium experience</p>
+                <p className="text-cream-50/50 text-[10px] md:text-xs tracking-[0.3em] uppercase font-light">Secure your premium experience</p>
               </div>
 
               {step === 1 ? (
@@ -183,67 +183,67 @@ Please let me know how to proceed with the deposit payment.`;
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Full Name */}
                     <div className="space-y-2 relative group">
-                      <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Full name</label>
+                      <label className="text-[10px] uppercase tracking-widest text-amber-500/80 font-semibold ml-1">Full name</label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                          <User className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
+                          <User className="w-4 h-4 text-amber-500/50 group-focus-within:text-amber-600 transition-colors" />
                         </div>
-                        <input required name="name" value={formData.name} onChange={handleInputChange} type="text" placeholder="John Doe" className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-white placeholder:text-white/20 focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm" />
+                        <input required name="name" value={formData.name} onChange={handleInputChange} type="text" placeholder="John Doe" className="w-full bg-lounge-800/60 border border-gold-500/25 py-4 pl-12 pr-4 text-cream-50 placeholder:text-cream-50/35 focus:border-gold-500 focus:ring-1 focus:ring-gold-500/30 outline-none transition-all rounded-sm" />
                       </div>
                     </div>
                     
                     {/* Guests */}
                     <div className="space-y-2 relative group">
-                      <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Number of guests</label>
+                      <label className="text-[10px] uppercase tracking-widest text-amber-500/80 font-semibold ml-1">Number of guests</label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                          <Users className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
+                          <Users className="w-4 h-4 text-amber-500/50 group-focus-within:text-amber-600 transition-colors" />
                         </div>
-                        <input required name="guests" value={formData.guests} onChange={handleInputChange} type="number" min="1" placeholder="2" className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-white placeholder:text-white/20 focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm" />
+                        <input required name="guests" value={formData.guests} onChange={handleInputChange} type="number" min="1" placeholder="2" className="w-full bg-lounge-800/60 border border-gold-500/25 py-4 pl-12 pr-4 text-cream-50 placeholder:text-cream-50/35 focus:border-gold-500 focus:ring-1 focus:ring-gold-500/30 outline-none transition-all rounded-sm" />
                       </div>
                     </div>
 
                     {/* Arrival Date */}
                     <div className="space-y-2 relative group">
-                      <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Arrival date</label>
+                      <label className="text-[10px] uppercase tracking-widest text-amber-500/80 font-semibold ml-1">Arrival date</label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                          <Calendar className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
+                          <Calendar className="w-4 h-4 text-amber-500/50 group-focus-within:text-amber-600 transition-colors" />
                         </div>
-                        <input required name="date" value={formData.date} onChange={handleInputChange} type="date" min={new Date().toISOString().split('T')[0]} className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-white focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm [color-scheme:dark]" />
+                        <input required name="date" value={formData.date} onChange={handleInputChange} type="date" min={new Date().toISOString().split('T')[0]} className="w-full bg-lounge-800/60 border border-gold-500/25 py-4 pl-12 pr-4 text-cream-50 focus:border-gold-500 outline-none transition-all rounded-sm" />
                       </div>
                     </div>
 
                     {/* Arrival Time */}
                     <div className="space-y-2 relative group">
-                      <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Arrival time</label>
+                      <label className="text-[10px] uppercase tracking-widest text-amber-500/80 font-semibold ml-1">Arrival time</label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                          <Clock className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
+                          <Clock className="w-4 h-4 text-amber-500/50 group-focus-within:text-amber-600 transition-colors" />
                         </div>
-                        <input required name="time" value={formData.time} onChange={handleInputChange} type="time" className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-white focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm [color-scheme:dark]" />
+                        <input required name="time" value={formData.time} onChange={handleInputChange} type="time" className="w-full bg-lounge-800/60 border border-gold-500/25 py-4 pl-12 pr-4 text-cream-50 focus:border-gold-500 outline-none transition-all rounded-sm" />
                       </div>
                     </div>
 
                     {/* Phone Number */}
                     <div className="space-y-2 relative group">
-                      <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Phone number</label>
+                      <label className="text-[10px] uppercase tracking-widest text-amber-500/80 font-semibold ml-1">Phone number</label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                          <Phone className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
+                          <Phone className="w-4 h-4 text-amber-500/50 group-focus-within:text-amber-600 transition-colors" />
                         </div>
-                        <input required name="phone" value={formData.phone} onChange={handleInputChange} type="tel" placeholder="+234 800 000 0000" className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-white placeholder:text-white/20 focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm" />
+                        <input required name="phone" value={formData.phone} onChange={handleInputChange} type="tel" placeholder="+234 800 000 0000" className="w-full bg-lounge-800/60 border border-gold-500/25 py-4 pl-12 pr-4 text-cream-50 placeholder:text-cream-50/35 focus:border-gold-500 focus:ring-1 focus:ring-gold-500/30 outline-none transition-all rounded-sm" />
                       </div>
                     </div>
 
                     {/* Email */}
                     <div className="space-y-2 relative group">
-                      <label className="text-[10px] uppercase tracking-widest text-gold-400/80 font-semibold ml-1">Email</label>
+                      <label className="text-[10px] uppercase tracking-widest text-amber-500/80 font-semibold ml-1">Email</label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                          <Mail className="w-4 h-4 text-gold-400/50 group-focus-within:text-gold-500 transition-colors" />
+                          <Mail className="w-4 h-4 text-amber-500/50 group-focus-within:text-amber-600 transition-colors" />
                         </div>
-                        <input required name="email" value={formData.email} onChange={handleInputChange} type="email" placeholder="john@example.com" className="w-full bg-black/50 border border-gold-500/20 py-4 pl-12 pr-4 text-white placeholder:text-white/20 focus:border-gold-500 focus:bg-gold-500/5 focus:ring-1 focus:ring-gold-500/50 outline-none transition-all rounded-sm" />
+                        <input required name="email" value={formData.email} onChange={handleInputChange} type="email" placeholder="john@example.com" className="w-full bg-lounge-800/60 border border-gold-500/25 py-4 pl-12 pr-4 text-cream-50 placeholder:text-cream-50/35 focus:border-gold-500 focus:ring-1 focus:ring-gold-500/30 outline-none transition-all rounded-sm" />
                       </div>
                     </div>
                   </div>
@@ -273,11 +273,11 @@ Please let me know how to proceed with the deposit payment.`;
                   className="space-y-8 flex flex-col items-center py-8"
                 >
                   <div className="text-center space-y-4">
-                    <h3 className="text-xl text-gold-500 font-serif">Your VIP Booking Code</h3>
-                    <div className="bg-black border border-gold-500/30 py-6 px-12 rounded-sm shadow-[0_0_30px_rgba(212,175,55,0.15)]">
-                      <span className="text-4xl md:text-5xl font-mono text-gold-500 tracking-widest">{generatedCode}</span>
+                    <h3 className="text-xl text-amber-600 font-serif">Your VIP Booking Code</h3>
+                    <div className="lounge-card-dark py-6 px-12 rounded-sm">
+                      <span className="text-4xl md:text-5xl font-mono text-gold-600 tracking-widest">{generatedCode}</span>
                     </div>
-                    <p className="text-white/70 text-sm max-w-md mx-auto mt-4 font-light">
+                    <p className="section-body text-sm max-w-md mx-auto mt-4 font-light">
                       Please accept this code to secure your reservation. WhatsApp will open in a new tab to finalize your deposit.
                     </p>
                   </div>
@@ -292,7 +292,7 @@ Please let me know how to proceed with the deposit payment.`;
                     <button 
                       onClick={() => setStep(1)}
                       disabled={isSubmitting}
-                      className="flex-1 py-4 border border-white/20 text-white/60 text-xs font-bold uppercase tracking-widest hover:bg-white/5 transition-colors rounded-sm"
+                      className="flex-1 py-4 border border-gold-500/30 text-cream-50/70 text-xs font-bold uppercase tracking-widest hover:bg-gold-500/10 transition-colors rounded-sm"
                     >
                       Go Back
                     </button>
@@ -317,11 +317,11 @@ Please let me know how to proceed with the deposit payment.`;
                     <CheckCircle2 className="w-8 h-8 text-green-400" />
                   </div>
                   <div className="space-y-3 max-w-md">
-                    <h3 className="text-2xl font-serif text-gold-500">Reservation Submitted</h3>
-                    <p className="text-white/80 text-sm leading-relaxed">
-                      Your booking code <span className="font-mono text-gold-500 font-bold">{generatedCode}</span> has been saved.
+                    <h3 className="text-2xl font-serif text-amber-600">Reservation Submitted</h3>
+                    <p className="section-body text-sm leading-relaxed">
+                      Your booking code <span className="font-mono text-amber-600 font-bold">{generatedCode}</span> has been saved.
                     </p>
-                    <p className="text-white/60 text-sm leading-relaxed">
+                    <p className="text-cream-50/50 text-sm leading-relaxed">
                       Expect feedback and make payments on WhatsApp. If a new tab did not open, check your pop-up blocker or tap the button below.
                     </p>
                   </div>
@@ -336,7 +336,7 @@ Please let me know how to proceed with the deposit payment.`;
                   <button
                     type="button"
                     onClick={() => setIsOpen(false)}
-                    className="w-full py-4 border border-white/20 text-white/60 text-xs font-bold uppercase tracking-widest hover:bg-white/5 transition-colors rounded-sm"
+                    className="w-full py-4 border border-gold-500/30 text-cream-50/70 text-xs font-bold uppercase tracking-widest hover:bg-gold-500/10 transition-colors rounded-sm"
                   >
                     Close
                   </button>

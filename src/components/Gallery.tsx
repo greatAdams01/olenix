@@ -1,40 +1,46 @@
 import { motion } from 'motion/react';
 
 export default function Gallery() {
-  // We have images from img-14.jpg to img-48.jpg
   const images = Array.from({ length: 35 }, (_, i) => `/img/img-${i + 14}.jpg`);
+  const heroImage = images[0];
+  const gridImages = images.slice(1, 13);
 
   return (
-    <section id="gallery" className="py-24 bg-black border-t border-white/10 px-4 md:px-12">
-      <div className="max-w-[1280px] mx-auto">
-        <motion.div
-           initial={{ opacity: 0, y: 20 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           className="text-center mb-16 md:mb-24"
-        >
-          <span className="text-[10px] uppercase tracking-[0.4em] font-semibold text-gold-500">The Experience</span>
-          <h2 className="text-3xl md:text-5xl font-serif text-white mt-4 mb-6">Our Gallery</h2>
-          <div className="w-12 h-[1px] bg-gold-500/50 mx-auto" />
-        </motion.div>
+    <section id="gallery" className="border-t border-warm-dark section-dark">
+      <div className="relative max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16 md:py-20">
+        <div className="absolute inset-0 lounge-glow-dark pointer-events-none" />
+        <div className="relative">
+          <p className="section-eyebrow mb-3">The vibe</p>
+          <h2 className="section-title text-3xl md:text-5xl text-cream-50">Gallery</h2>
+        </div>
+      </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {images.map((src, idx) => (
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        className="w-full max-h-[70vh] overflow-hidden border-y border-warm-dark"
+      >
+        <img src={heroImage} alt="Olenix lounge" className="w-full h-full object-cover max-h-[70vh]" />
+      </motion.div>
+
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-12 md:py-16">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
+          {gridImages.map((src, idx) => (
             <motion.div
-              key={idx}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              key={src}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: (idx % 10) * 0.1, duration: 0.5 }}
-              className="relative aspect-square overflow-hidden group rounded-sm border border-white/10"
+              transition={{ delay: (idx % 8) * 0.04 }}
+              className="aspect-square overflow-hidden group ring-1 ring-gold-500/10"
             >
               <img
                 src={src}
-                alt={`Gallery image ${idx + 1}`}
+                alt={`Olenix ${idx + 2}`}
                 loading="lazy"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500" />
             </motion.div>
           ))}
         </div>

@@ -1,11 +1,19 @@
 import { useState, useEffect, useCallback } from 'react';
-import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { listMenuCategories, listMenuItems } from '../lib/menuApi';
-import { resolveImageUrl } from '../lib/menuImages';
 import { mapCategory, mapMenuItem, type MenuCategory, type MenuItem } from '../types/database';
-import CloudinaryImg from './CloudinaryImg';
+
+const EXCLUSIVE_CATEGORIES = [
+  'Champagne',
+  'Cognac',
+  'Whiskey & Brandy',
+  'Tequila',
+  'Spirit & Vodka',
+  'Wine',
+  'Premium Additions',
+];
 
 export default function Menu() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -14,112 +22,91 @@ export default function Menu() {
 
   const fetchMenu = useCallback(async () => {
     const [itemsRes, catsRes] = await Promise.all([listMenuItems(), listMenuCategories()]);
-
-    if (itemsRes.error) {
-      console.error(itemsRes.error);
-    } else if (itemsRes.data) {
-      setMenuItems(itemsRes.data.map(mapMenuItem));
-    }
-
-    if (catsRes.error) {
-      console.error(catsRes.error);
-    } else if (catsRes.data) {
-      setCategories(catsRes.data.map(mapCategory));
-    }
-
+    if (itemsRes.data) setMenuItems(itemsRes.data.map(mapMenuItem));
+    if (catsRes.data) setCategories(catsRes.data.map(mapCategory));
     setLoading(false);
   }, []);
 
   useEffect(() => {
     fetchMenu();
-
     const channel = supabase
       .channel('public-menu')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'menu' }, fetchMenu)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'menu_categories' }, fetchMenu)
       .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
+    return () => { supabase.removeChannel(channel); };
   }, [fetchMenu]);
 
-  const fullMenu = categories.map((cat) => ({
-    id: cat.id,
-    category: cat.name,
-    imageUrl: cat.imageUrl,
-    items: menuItems.filter((item) => item.category === cat.name),
-  })).filter((section) => section.items.length > 0);
-
-  const featuredMenuItems = [...fullMenu]
-    .sort((a, b) => a.category.localeCompare(b.category))
-    .slice(0, 3)
-    .map((section) => ({
-      ...section,
-      items: section.items.slice(0, 4),
-    }));
+  const featured = [...categories]
+    .map((cat) => ({
+      category: cat.name,
+      items: menuItems.filter((i) => i.category === cat.name).slice(0, 3),
+    }))
+    .filter((s) => s.items.length > 0)
+    .sort((a, b) => {
+      const aEx = EXCLUSIVE_CATEGORIES.includes(a.category);
+      const bEx = EXCLUSIVE_CATEGORIES.includes(b.category);
+      if (aEx && !bEx) return -1;
+      if (!aEx && bEx) return 1;
+      return a.category.localeCompare(b.category);
+    })
+    .slice(0, 4);
 
   if (loading) {
     return (
-      <section id="menu" className="py-24 bg-black px-4 md:px-12 border-t border-white/10">
-        <div className="max-w-[1280px] mx-auto text-center text-white/40 text-sm animate-pulse">Loading menu...</div>
+      <section id="menu" className="py-20 section-warm border-t border-warm text-center text-warm-500 text-sm animate-pulse">
+        Loading menu…
       </section>
     );
   }
 
   return (
-    <section id="menu" className="py-24 bg-black bg-gradient-to-tr from-gold-500/10 via-black to-white/5 px-4 md:px-12 border-t border-white/10 relative">
-      <div className="max-w-[1280px] mx-auto">
-        <motion.div
-           initial={{ opacity: 0, y: 20 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           className="text-center mb-16 md:mb-24"
-        >
-          <span className="text-[10px] uppercase tracking-[0.4em] font-semibold text-gold-500">Taste of Luxury</span>
-          <h2 className="text-4xl md:text-6xl font-serif text-white mt-4 mb-6">Our Menu</h2>
-          <div className="w-12 h-[1px] bg-gold-500/50 mx-auto" />
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 lg:gap-8 mb-16">
-          {featuredMenuItems.map((section) => (
-            <motion.div 
-              key={section.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="flex flex-col gap-6"
-            >
-              {section.imageUrl && (
-                <div className="w-full h-48 sm:h-64 rounded-sm overflow-hidden relative mb-2">
-                  <CloudinaryImg publicId={section.imageUrl} alt={section.category} className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-black/20" />
-                </div>
-              )}
-              <h3 className="text-xl font-serif text-gold-500 uppercase tracking-widest border-b border-gold-500/20 pb-4">{section.category}</h3>
-              <div className="flex flex-col gap-6">
-                {section.items.map((item) => (
-                  <div key={item.id} className="group cursor-pointer">
-                    <div className="flex justify-between items-baseline mb-2">
-                      <h4 className="text-sm font-bold uppercase tracking-widest text-white group-hover:text-gold-400 transition-colors pr-4">{item.name}</h4>
-                      <span className="text-xs font-mono text-gold-500 shrink-0">{item.price}</span>
-                    </div>
-                    <p className="text-xs text-white/70 font-light leading-relaxed">{item.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          ))}
+    <section id="menu" className="border-t border-warm section-warm">
+      <div className="grid lg:grid-cols-2">
+        <div className="relative min-h-[360px] lg:min-h-[600px] overflow-hidden order-2 lg:order-1">
+          <img src="/img/img-8.jpg" alt="Drinks at Olenix" className="absolute inset-0 w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-lounge-950/25" />
         </div>
 
-        <div className="text-center">
-          <Link 
-            to="/menu"
-            className="inline-block px-10 py-4 border border-gold-500 text-gold-500 text-xs font-bold uppercase tracking-widest hover:bg-gold-500 hover:text-black transition-all"
-          >
-            View Full Menu
-          </Link>
+        <div className="section-dark relative flex flex-col justify-center px-6 sm:px-10 lg:px-16 xl:px-20 py-16 md:py-24 order-1 lg:order-2 border-b lg:border-b-0 lg:border-l border-warm-dark">
+          <div className="absolute inset-0 lounge-glow-dark pointer-events-none" />
+          <div className="relative">
+            <p className="section-eyebrow mb-4">Food &amp; drink</p>
+            <h2 className="section-title text-3xl md:text-5xl mb-6 leading-tight text-cream-50">
+              From champagne
+              <br />
+              to kitchen
+            </h2>
+            <p className="section-body font-light leading-relaxed mb-10 max-w-md">
+              Premium spirits, wines, and Nigerian &amp; international dishes — explore our full menu online or ask your server.
+            </p>
+
+            <div className="space-y-8 mb-10">
+              {featured.map((section) => (
+                <div key={section.category}>
+                  <h3 className="text-[10px] uppercase tracking-[0.25em] text-gold-400 font-bold mb-3 border-b border-gold-500/25 pb-2">
+                    {section.category}
+                  </h3>
+                  <ul className="space-y-2">
+                    {section.items.map((item) => (
+                      <li key={item.id} className="flex justify-between gap-4 text-sm">
+                        <span className="text-cream-50/90">{item.name}</span>
+                        <span className="font-mono text-gold-400 text-xs shrink-0">{item.price}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            <Link
+              to="/menu"
+              className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.25em] text-gold-400 hover:text-gold-300 transition-colors group"
+            >
+              View full menu
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
         </div>
       </div>
     </section>
